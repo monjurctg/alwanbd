@@ -13,11 +13,11 @@
                     <div class="row justify-content-center text-center">
                         <div class="col-12 col-md-10 col-lg-8">
                             <div class="slider-content text-white">
-                                <h1 class="fw-bold">{{ $row->title }}</h1>
+                                <!-- <h1 class="fw-bold">{{ $row->title }}</h1>
 
                                 @if(!empty($aRow->sub_title))
                                     <p class="mt-3">{{ $aRow->sub_title }}</p>
-                                @endif
+                                @endif -->
 
                                 @if(!empty($aRow->button_text))
                                     <a href="{{ $row->url }}"
