@@ -12,10 +12,10 @@
 						<div class="row">
 							<div class="order-1 col-sm-12 order-sm-1 col-md-6 order-md-0 col-lg-5 order-lg-0">
 								<div class="slider-content">
-									<h1>{{ $row->title }}</h1>
-									@if($aRow->sub_title != '')
+									<!-- <h1>{{ $row->title }}</h1> -->
+									<!-- @if($aRow->sub_title != '')
 									<p class="relative">{{ $aRow->sub_title }}</p>
-									@endif
+									@endif -->
 
 									@if($aRow->button_text != '')
 									<a href="{{ $row->url }}" class="btn theme-btn" {{ $aRow->target =='' ? '' : "target=".$aRow->target }}>{{ $aRow->button_text }}</a>
