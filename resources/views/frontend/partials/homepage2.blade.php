@@ -1,6 +1,36 @@
 <main class="main {{ $PageVariation['home_variation'] }}">
 	<!-- Home Slider -->
+	@if($section1->is_publish == 1)
+	<section class="slider-section">
+		<div class="home-slider owl-carousel">
+			<!-- Slider Item -->
+			@foreach ($slider as $row)
+			@php $aRow = json_decode($row->desc); @endphp
+			<div class="single-slider">
+				<div class="slider-screen h1-height" style="background-image: url({{ asset('public/media/'.$row->image) }});">
+					<div class="container">
+						<div class="row">
+							<div class="order-1 col-sm-12 order-sm-1 col-md-6 order-md-0 col-lg-5 order-lg-0">
+								<div class="slider-content">
+									<h1>{{ $row->title }}</h1>
+									@if($aRow->sub_title != '')
+									<p class="relative">{{ $aRow->sub_title }}</p>
+									@endif
 
+									@if($aRow->button_text != '')
+									<a href="{{ $row->url }}" class="btn theme-btn" {{ $aRow->target =='' ? '' : "target=".$aRow->target }}>{{ $aRow->button_text }}</a>
+									@endif
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			@endforeach
+			<!-- /Slider Item/ -->
+		</div>
+	</section>
+	@endif
 	<!-- /Home Slider/ -->
 
 	<!-- Featured Categories -->
