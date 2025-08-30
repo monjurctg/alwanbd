@@ -6,7 +6,7 @@ if (!isset($_GET['key']) || $_GET['key'] !== $secret) {
 }
 
 $publicDir = '/home/alamagro/public_html/alwanbd.alamagro.com';
-$gitRepo = 'https://monjurctg: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@github.com/monjurctg/allwanbd.git';
+$gitRepo   = 'https://github.com/monjurctg/alwanbd.git';
 
 chdir($publicDir);
 
