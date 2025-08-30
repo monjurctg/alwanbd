@@ -1,19 +1,19 @@
 <?php
-$secret = "MyStrongPassword123"; 
+$secret = "MyStrongPassword123";
 if (!isset($_GET['key']) || $_GET['key'] !== $secret) {
     http_response_code(403);
     die("<div style='font-family: Arial, sans-serif; padding: 20px; background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px; max-width: 600px; margin: 50px auto;'>Access Denied - Invalid or missing key</div>");
 }
 
-$publicDir = '/home/alamagro/public_html';
-$gitRepo   = 'https://github.com/monjurctg/ecom1.git';
+$publicDir = '/home/alamagro/public_html/alwanbd.alamagro.com';
+$gitRepo   = 'https://github.com/monjurctg/alwan.git';
 
 chdir($publicDir);
 
 function runCommand($cmd) {
     echo "<div style='background: #2d3748; color: #e2e8f0; padding: 10px 15px; border-radius: 5px; margin: 10px 0; font-family: monospace; white-space: pre-wrap;'>";
     echo "<span style='color: #81e6d9'>$</span> <span style='color: #fff'>".htmlspecialchars($cmd)."</span>\n";
-    
+
     $proc = popen($cmd . ' 2>&1', 'r');
     while (!feof($proc)) {
         $line = fgets($proc);
@@ -44,7 +44,7 @@ function runCommand($cmd) {
         <h1>Laravel Git Deployment</h1>
         <p>Deploying to: <?php echo htmlspecialchars($publicDir); ?></p>
     </div>
-    
+
     <div class="container">
         <?php
         // Git setup
@@ -75,7 +75,8 @@ function runCommand($cmd) {
         echo "<h2>Setting Permissions</h2>";
         runCommand("chmod -R 775 storage bootstrap/cache");
         ?>
-        
+
+
         <div class="success">
             Deployment completed successfully!
         </div>
