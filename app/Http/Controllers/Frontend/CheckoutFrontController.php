@@ -92,7 +92,7 @@ class CheckoutFrontController extends Controller
 		}
 
 		$payment_method_id = $request->input('payment_method');
-		$shipping_method_id = $request->input('shipping_method');
+
 
 		if($new_account == 1){
 
@@ -144,7 +144,7 @@ class CheckoutFrontController extends Controller
 				'city' => 'required',
 				'address' => 'required',
 				'payment_method' => 'required',
-				'shipping_method' => 'required'
+
 			]);
 
 			if(!$validator->passes()){
