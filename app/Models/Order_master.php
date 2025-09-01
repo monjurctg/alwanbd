@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Order_master extends Model
 {
     use HasFactory;
-	
+
 	protected $table = 'order_masters';
-	
+
     protected $fillable = [
 	  'order_no',
 	  'transaction_no',
@@ -36,5 +36,5 @@ class Order_master extends Model
 	  'city',
 	  'address',
 	  'comments',
-    ];	
+    ];
 }
