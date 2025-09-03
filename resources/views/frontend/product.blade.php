@@ -458,7 +458,8 @@
 										@endif
 									</div>
 									<div class="item-card-bottom">
-										<a class="btn add-to-cart addtocart" data-id="{{ $row->id }}"
+										<a class="btn add-to-cart addtocart" data-variation-color='@json($row->variation_color)'
+											data-variation-size='@json($row->variation_size)' data-id="{{ $row->id }}"
 											href="javascript:void(0);">{{ __('Add To Cart') }}</a>
 										<ul class="item-cart-list">
 											<li><a class="addtowishlist" data-id="{{ $row->id }}" href="javascript:void(0);"><i
@@ -543,7 +544,7 @@
 		<!-- /Popular Products/ -->
 
 
-	
+
 
 	</main>
 
