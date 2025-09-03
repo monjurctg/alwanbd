@@ -139,17 +139,17 @@
 
 								@if(is_array($sizes) && count($sizes) > 0)
 									<div class="pr_widget">
-										<label class="widget-title">{{ __('Unit') }}</label>
+										<label class="widget-title">{{ __('Size') }}</label>
 										<ul class="widget-size">
 											@foreach($sizes as $size)
-												<li class="unit active">{{ $data->variation_size }}</li>
+												<li class="unit active">{{ $size }}</li>
 											@endforeach
 										</ul>
 									</div>
 								@endif
 							@endif
 							
-							
+
 
 
 
