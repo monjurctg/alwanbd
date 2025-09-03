@@ -126,12 +126,12 @@
 									@endif
 								@endif
 							</div>
-{{ print_r(json_decode($product->variation_size, true)) }}
+{{ print_r(json_decode($data->variation_size, true)) }}
 
 							{{-- Size Variation --}}
-							@if(!empty($product->variation_size))
+							@if(!empty($data->variation_size))
 								@php
-									$sizes = json_decode($product->variation_size, true);
+									$sizes = json_decode($data->variation_size, true);
 								@endphp
 
 								{{-- Debug --}}
