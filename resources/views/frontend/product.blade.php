@@ -125,59 +125,43 @@
 									@endif
 								@endif
 							</div>
-							<pre>{{ $data->variation_size }}</pre>
-							<p>test</p>
-							<pre>{{ json_encode(json_decode($data->variation_size, true)) }}</pre>
+							\
 
 							{{-- Size Variation --}}
-							@if(!empty($data->variation_size))
+							@if(!empty($product->variation_size))
 								@php
-									$sizes = json_decode($data->variation_size, true);
-									// যদি double encoded হয়ে থাকে
-									if (is_string($sizes)) {
-										$sizes = json_decode($sizes, true);
-									}
+									$sizes = json_decode(trim($product->variation_size, "'"), true);
 								@endphp
 
 								@if(is_array($sizes) && count($sizes) > 0)
 									<div class="pr_widget">
-										<label class="widget-title">{{ __('Size') }}</label>
-										<ul class="widget-size">
+										<label class="widget-title">Size</label>
+										<select name="size" required>
 											@foreach($sizes as $size)
-												<li class="unit @if($loop->first) active @endif" data-value="{{ $size }}">
-													{{ $size }}
-												</li>
+												<option value="{{ $size }}">{{ $size }}</option>
 											@endforeach
-										</ul>
+										</select>
 									</div>
 								@endif
 							@endif
 
-
 							{{-- Color Variation --}}
-							@if(!empty($data->variation_color))
+							@if(!empty($product->variation_color))
 								@php
-									$colors = json_decode($data->variation_color, true);
-									// যদি double encoded হয়ে থাকে
-									if (is_string($colors)) {
-										$colors = json_decode($colors, true);
-									}
+									$colors = json_decode(trim($product->variation_color, "'"), true);
 								@endphp
 
 								@if(is_array($colors) && count($colors) > 0)
 									<div class="pr_widget">
-										<label class="widget-title">{{ __('Color') }}</label>
-										<ul class="widget-color">
+										<label class="widget-title">Color</label>
+										<select name="color" required>
 											@foreach($colors as $color)
-												<li class="unit @if($loop->first) active @endif" data-value="{{ $color }}">
-													{{ ucfirst($color) }}
-												</li>
+												<option value="{{ $color }}">{{ ucfirst($color) }}</option>
 											@endforeach
-										</ul>
+										</select>
 									</div>
 								@endif
 							@endif
-
 
 							<div class="pr_quantity">
 								<label for="quantity">{{ __('Quantity') }}</label>
