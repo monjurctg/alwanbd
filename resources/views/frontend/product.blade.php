@@ -129,41 +129,42 @@
 
 
 							{{-- Size Variation --}}
-							@if(!empty($product->variation_size))
+							@if(!empty($data->variation_size))
 								@php
-									$sizes = json_decode($product->variation_size, true);
+									$sizes = json_decode($data->variation_size, true);
 								@endphp
+
+							
 
 								@if(is_array($sizes) && count($sizes) > 0)
 									<div class="pr_widget">
-										<label class="widget-title">{{ __('Size') }}</label>
-										<ul class="widget-size">
+										<label class="widget-title">Size</label>
+										<select name="size" required>
 											@foreach($sizes as $size)
-												<li class="unit">{{ $size }}</li>
+												<option value="{{ $size }}">{{ $size }}</option>
 											@endforeach
-										</ul>
+										</select>
 									</div>
 								@endif
 							@endif
-
+							
 
 
 
 							{{-- Color Variation --}}
 							@if(!empty($product->variation_color))
 								@php
-									$colors = json_decode($product->variation_color, true);
+									$colors = json_decode(trim($product->variation_color, "'"), true);
 								@endphp
 
 								@if(is_array($colors) && count($colors) > 0)
 									<div class="pr_widget">
 										<label class="widget-title">Color</label>
-										<ul class="widget-color">
+										<select name="color" required>
 											@foreach($colors as $color)
-												<li class="color-option" style="background-color: {{ $color }};"
-													title="{{ ucfirst($color) }}"></li>
+												<option value="{{ $color }}">{{ ucfirst($color) }}</option>
 											@endforeach
-										</ul>
+										</select>
 									</div>
 								@endif
 							@endif
