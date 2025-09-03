@@ -127,16 +127,13 @@
 								@endif
 							</div>
 
-						
+
 
 							{{-- Size Variation --}}
 							@if(!empty($data->variation_size))
 								@php
 									$sizes = json_decode($data->variation_size, true);
 								@endphp
-
-							
-
 								@if(is_array($sizes) && count($sizes) > 0)
 									<div class="pr_widget">
 										<label class="widget-title">{{ __('Size') }}</label>
@@ -148,9 +145,24 @@
 									</div>
 								@endif
 							@endif
-							
 
 
+	{{-- Color Variation --}}
+							@if(!empty($data->variation_color))
+								@php
+									$colors = json_decode($data->variation_color, true);
+								@endphp
+								@if(is_array($colors) && count($colors) > 0)
+									<div class="pr_widget">
+										<label class="widget-title">{{ __('Color') }}</label>
+										<ul class="widget-size">
+											@foreach($colors as $color)
+												<li class="unit active">{{ $color }}</li>
+											@endforeach
+										</ul>
+									</div>
+								@endif
+							@endif
 
 
 							{{-- Color Variation --}}
