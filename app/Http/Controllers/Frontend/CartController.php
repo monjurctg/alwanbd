@@ -11,7 +11,8 @@ use App\Models\User;
 class CartController extends Controller
 {
 	//Add to Cart
-	public function AddToCart($id, $qty){
+	public function AddToCart($id, $qty, Request $request)
+	{
 
 		$res = array();
 		$datalist = Product::where('id', $id)->first();
@@ -19,10 +20,12 @@ class CartController extends Controller
 
 		$quantity = $qty == 0 ? 1 : $qty;
 		$cart = session()->get('shopping_cart', []);
+		$selectedSize = $request->input('size', '');
+		$selectedColor = $request->input('color', '');
 
-		if(isset($cart[$id])){
+		if (isset($cart[$id])) {
 			$cart[$id]['qty'] = $cart[$id]['qty'] + $quantity;
-		}else{
+		} else {
 			$cart[$id] = [
 				"id" => $datalist['id'],
 				"name" => $datalist['title'],
@@ -31,6 +34,8 @@ class CartController extends Controller
 				"weight" => 0,
 				"thumbnail" => $datalist['f_thumbnail'],
 				"unit" => $datalist['variation_size'],
+				"size" => $selectedSize,        // ✅ save selected size
+				"color" => $selectedColor,
 				"seller_id" => $datalist['user_id'],
 				"seller_name" => $user['name'],
 				"store_name" => $user['shop_name'],
@@ -51,7 +56,8 @@ class CartController extends Controller
 	}
 
 	//Add to Cart
-	public function ViewCart(){
+	public function ViewCart()
+	{
 		$gtext = gtext();
 		$gtax = getTax();
 		$taxRate = $gtax['percentage'];
@@ -64,27 +70,27 @@ class CartController extends Controller
 		$tax = 0;
 		$total = 0;
 		$items = '';
-		if(session()->get('shopping_cart')){
+		if (session()->get('shopping_cart')) {
 			foreach ($ShoppingCartData as $row) {
 				$count += $row['qty'];
-				$Total_Price += $row['price']*$row['qty'];
-				$Sub_Total += $row['price']*$row['qty'];
+				$Total_Price += $row['price'] * $row['qty'];
+				$Sub_Total += $row['price'] * $row['qty'];
 
-				if($gtext['currency_position'] == 'left'){
-					$price = '<span id="product-quatity">'.$row['qty'].'</span> x '.$gtext['currency_icon'].$row['price'];
-				}else{
-					$price = '<span id="product-quatity">'.$row['qty'].'</span> x '.$row['price'].$gtext['currency_icon'];
+				if ($gtext['currency_position'] == 'left') {
+					$price = '<span id="product-quatity">' . $row['qty'] . '</span> x ' . $gtext['currency_icon'] . $row['price'];
+				} else {
+					$price = '<span id="product-quatity">' . $row['qty'] . '</span> x ' . $row['price'] . $gtext['currency_icon'];
 				}
 
 				$items .= '<li>
 							<div class="cart-item-card">
-								<a data-id="'.$row['id'].'" id="removetocart_'.$row['id'].'" onclick="onRemoveToCart('.$row['id'].')" href="javascript:void(0);" class="item-remove"><i class="bi bi-x"></i></a>
+								<a data-id="' . $row['id'] . '" id="removetocart_' . $row['id'] . '" onclick="onRemoveToCart(' . $row['id'] . ')" href="javascript:void(0);" class="item-remove"><i class="bi bi-x"></i></a>
 								<div class="cart-item-img">
-									<img src="'.$Path.'/'.$row['thumbnail'].'" alt="'.$row['name'].'" />
+									<img src="' . $Path . '/' . $row['thumbnail'] . '" alt="' . $row['name'] . '" />
 								</div>
 								<div class="cart-item-desc">
-									<h6><a href="'.route('frontend.product', [$row['id'], str_slug($row['name'])]).'">'.$row['name'].'</a></h6>
-									<p>'.$price.'</p>
+									<h6><a href="' . route('frontend.product', [$row['id'], str_slug($row['name'])]) . '">' . $row['name'] . '</a></h6>
+									<p>' . $price . '</p>
 								</div>
 							</div>
 						</li>';
@@ -94,37 +100,38 @@ class CartController extends Controller
 		$TotalPrice = NumberFormat($Total_Price);
 		$SubTotal = NumberFormat($Sub_Total);
 
-		$TaxCal = ($Total_Price*$taxRate)/100;
+		$TaxCal = ($Total_Price * $taxRate) / 100;
 		$tax = NumberFormat($TaxCal);
 
-		$total = $Sub_Total+$TaxCal;
+		$total = $Sub_Total + $TaxCal;
 		$GrandTotal = NumberFormat($total);
 		$discount = 0;
 
 		$datalist = array();
 		$datalist['items'] = $items;
 		$datalist['total_qty'] = $count;
-		if($gtext['currency_position'] == 'left'){
-			$datalist['sub_total'] = $gtext['currency_icon'].$SubTotal;
-			$datalist['tax'] = $gtext['currency_icon'].$tax;
-			$datalist['price_total'] = $gtext['currency_icon'].$TotalPrice;
-			$datalist['total'] = $gtext['currency_icon'].$GrandTotal;
-		}else{
-			$datalist['sub_total'] = $SubTotal.$gtext['currency_icon'];
-			$datalist['tax'] = $tax.$gtext['currency_icon'];
-			$datalist['price_total'] = $TotalPrice.$gtext['currency_icon'];
-			$datalist['total'] = $GrandTotal.$gtext['currency_icon'];
+		if ($gtext['currency_position'] == 'left') {
+			$datalist['sub_total'] = $gtext['currency_icon'] . $SubTotal;
+			$datalist['tax'] = $gtext['currency_icon'] . $tax;
+			$datalist['price_total'] = $gtext['currency_icon'] . $TotalPrice;
+			$datalist['total'] = $gtext['currency_icon'] . $GrandTotal;
+		} else {
+			$datalist['sub_total'] = $SubTotal . $gtext['currency_icon'];
+			$datalist['tax'] = $tax . $gtext['currency_icon'];
+			$datalist['price_total'] = $TotalPrice . $gtext['currency_icon'];
+			$datalist['total'] = $GrandTotal . $gtext['currency_icon'];
 		}
 
 		return response()->json($datalist);
 	}
 
 	//Remove to Cart
-	public function RemoveToCart($rowid){
+	public function RemoveToCart($rowid)
+	{
 		$res = array();
 
 		$cart = session()->get('shopping_cart');
-		if(isset($cart[$rowid])){
+		if (isset($cart[$rowid])) {
 			unset($cart[$rowid]);
 			session()->put('shopping_cart', $cart);
 		}
@@ -135,13 +142,15 @@ class CartController extends Controller
 		return response()->json($res);
 	}
 
-    //get Cart
-    public function getCart(){
-        return view('frontend.cart');
-    }
+	//get Cart
+	public function getCart()
+	{
+		return view('frontend.cart');
+	}
 
-    //get Cart
-    public function getViewCartData(){
+	//get Cart
+	public function getViewCartData()
+	{
 		$gtext = gtext();
 		$gtax = getTax();
 		$taxRate = $gtax['percentage'];
@@ -153,45 +162,46 @@ class CartController extends Controller
 		$tax = 0;
 		$total = 0;
 
-		if(session()->get('shopping_cart')){
+		if (session()->get('shopping_cart')) {
 			foreach ($ShoppingCartData as $row) {
 				$count += $row['qty'];
-				$Total_Price += $row['price']*$row['qty'];
-				$Sub_Total += $row['price']*$row['qty'];
+				$Total_Price += $row['price'] * $row['qty'];
+				$Sub_Total += $row['price'] * $row['qty'];
 			}
 		}
 
 		$TotalPrice = NumberFormat($Total_Price);
 		$SubTotal = NumberFormat($Sub_Total);
 
-		$TaxCal = ($Total_Price*$taxRate)/100;
+		$TaxCal = ($Total_Price * $taxRate) / 100;
 		$tax = NumberFormat($TaxCal);
 
-		$total = $SubTotal+$TaxCal;
+		$total = $SubTotal + $TaxCal;
 		$GrandTotal = NumberFormat($total);
 		$discount = 0;
 
 		$datalist = array();
 		$datalist['total_qty'] = $count;
-		if($gtext['currency_position'] == 'left'){
-			$datalist['sub_total'] = $gtext['currency_icon'].$SubTotal;
-			$datalist['tax'] = $gtext['currency_icon'].$tax;
-			$datalist['price_total'] = $gtext['currency_icon'].$TotalPrice;
-			$datalist['total'] = $gtext['currency_icon'].$GrandTotal;
-			$datalist['discount'] = $gtext['currency_icon'].$discount;
-		}else{
-			$datalist['sub_total'] = $SubTotal.$gtext['currency_icon'];
-			$datalist['tax'] = $tax.$gtext['currency_icon'];
-			$datalist['price_total'] = $TotalPrice.$gtext['currency_icon'];
-			$datalist['total'] = $GrandTotal.$gtext['currency_icon'];
-			$datalist['discount'] = $discount.$gtext['currency_icon'];
+		if ($gtext['currency_position'] == 'left') {
+			$datalist['sub_total'] = $gtext['currency_icon'] . $SubTotal;
+			$datalist['tax'] = $gtext['currency_icon'] . $tax;
+			$datalist['price_total'] = $gtext['currency_icon'] . $TotalPrice;
+			$datalist['total'] = $gtext['currency_icon'] . $GrandTotal;
+			$datalist['discount'] = $gtext['currency_icon'] . $discount;
+		} else {
+			$datalist['sub_total'] = $SubTotal . $gtext['currency_icon'];
+			$datalist['tax'] = $tax . $gtext['currency_icon'];
+			$datalist['price_total'] = $TotalPrice . $gtext['currency_icon'];
+			$datalist['total'] = $GrandTotal . $gtext['currency_icon'];
+			$datalist['discount'] = $discount . $gtext['currency_icon'];
 		}
 
 		return response()->json($datalist);
-    }
+	}
 
 	//Add to Wishlist
-	public function addToWishlist($id){
+	public function addToWishlist($id)
+	{
 
 		$res = array();
 		$datalist = Product::where('id', $id)->first();
@@ -200,9 +210,9 @@ class CartController extends Controller
 		$quantity = 1;
 		$cart = session()->get('shopping_wishlist', []);
 
-		if(isset($cart[$id])){
+		if (isset($cart[$id])) {
 			$cart[$id]['qty'] = $quantity;
-		}else{
+		} else {
 			$cart[$id] = [
 				"id" => $datalist['id'],
 				"name" => $datalist['title'],
@@ -229,17 +239,19 @@ class CartController extends Controller
 		return response()->json($res);
 	}
 
-    //get Wishlist
-    public function getWishlist(){
+	//get Wishlist
+	public function getWishlist()
+	{
 		return view('frontend.wishlist');
 	}
 
 	//Remove to Wishlist
-	public function RemoveToWishlist($rowid){
+	public function RemoveToWishlist($rowid)
+	{
 		$res = array();
 
 		$cart = session()->get('shopping_wishlist');
-		if(isset($cart[$rowid])){
+		if (isset($cart[$rowid])) {
 			unset($cart[$rowid]);
 			session()->put('shopping_wishlist', $cart);
 		}
@@ -251,11 +263,12 @@ class CartController extends Controller
 	}
 
 	//Count to Wishlist
-	public function countWishlist(){
+	public function countWishlist()
+	{
 
 		$ShoppingWishlistData = session()->get('shopping_wishlist');
 		$count = 0;
-		if(session()->get('shopping_wishlist')){
+		if (session()->get('shopping_wishlist')) {
 			foreach ($ShoppingWishlistData as $row) {
 				$count++;
 			}
