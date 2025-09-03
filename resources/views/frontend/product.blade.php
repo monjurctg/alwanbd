@@ -147,7 +147,25 @@
 							@endif
 
 
-	{{-- Color Variation --}}
+							{{-- Size Variation --}}
+							@if(!empty($data->variation_size))
+								@php
+									$sizes = json_decode($data->variation_size, true);
+								@endphp
+								@if(is_array($sizes) && count($sizes) > 0)
+									<div class="pr_widget">
+										<label class="widget-title">{{ __('Size') }}</label>
+										<ul class="widget-size" id="size-options">
+											@foreach($sizes as $size)
+												<li class="unit" data-size="{{ $size }}">{{ $size }}</li>
+											@endforeach
+										</ul>
+										<input type="hidden" name="selected_size" id="selected_size">
+									</div>
+								@endif
+							@endif
+
+							{{-- Color Variation --}}
 							@if(!empty($data->variation_color))
 								@php
 									$colors = json_decode($data->variation_color, true);
@@ -155,33 +173,16 @@
 								@if(is_array($colors) && count($colors) > 0)
 									<div class="pr_widget">
 										<label class="widget-title">{{ __('Color') }}</label>
-										<ul class="widget-size">
+										<ul class="widget-color" id="color-options">
 											@foreach($colors as $color)
-												<li class="unit active">{{ $color }}</li>
+												<li class="color-option" data-color="{{ $color }}">{{ ucfirst($color) }}</li>
 											@endforeach
 										</ul>
+										<input type="hidden" name="selected_color" id="selected_color">
 									</div>
 								@endif
 							@endif
 
-
-							{{-- Color Variation --}}
-							@if(!empty($product->variation_color))
-								@php
-									$colors = json_decode(trim($product->variation_color, "'"), true);
-								@endphp
-
-								@if(is_array($colors) && count($colors) > 0)
-									<div class="pr_widget">
-										<label class="widget-title">Color</label>
-										<select name="color" required>
-											@foreach($colors as $color)
-												<option value="{{ $color }}">{{ ucfirst($color) }}</option>
-											@endforeach
-										</select>
-									</div>
-								@endif
-							@endif
 
 							<div class="pr_quantity">
 								<label for="quantity">{{ __('Quantity') }}</label>

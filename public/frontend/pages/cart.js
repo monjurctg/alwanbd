@@ -12,111 +12,229 @@ $(function () {
 	onViewCart();
 	onWishlist();
 	
-	$(document).on("click", ".product_addtocart", function(event) {
-		event.preventDefault();
+// Select size
+$(document).on("click", ".widget-size .unit", function () {
+    $(".widget-size .unit").removeClass("active");
+    $(this).addClass("active");
+    $("#selected_size").val($(this).data("size"));
+});
 
-		var id = $(this).data('id');
-		var qty = $("#quantity").val();
+// Select color
+$(document).on("click", ".widget-color .color-option", function () {
+    $(".widget-color .color-option").removeClass("active");
+    $(this).addClass("active");
+    $("#selected_color").val($(this).data("color"));
+});
 
-		if((qty == undefined) || (qty == '') || (qty <= 0)){
-			onErrorMsg(TEXT['Please enter quantity.']);
-			return;
-		}
-		if(is_stock == 1){
-			var stockqty = $(this).data('stockqty');
-			if(is_stock_status == 1){
-				if(qty > stockqty){
-					onErrorMsg(TEXT['The value must be less than or equal to']);
-					return;
-				}
-			}else{
-				onErrorMsg(TEXT['This product out of stock.']);
-				return;
-			}
-		}
-		
-		$.ajax({
-			type : 'GET',
-			url: base_url + '/frontend/add_to_cart/'+id+'/'+qty,
-			dataType:"json",
-			success: function (response) {
-				var msgType = response.msgType;
-				var msg = response.msg;
 
-				if (msgType == "success") {
-					onSuccessMsg(msg);
-				} else {
-					onErrorMsg(msg);
-				}
-				onViewCart();
-			}
-		});
+// Buy Now
+$(document).on("click", ".product_buy_now", function (event) {
+    event.preventDefault();
+
+    var id = $(this).data('id');
+    var qty = $("#quantity").val();
+    var size = $("#selected_size").val();
+    var color = $("#selected_color").val();
+
+    // Validate qty
+    if ((qty == undefined) || (qty == '') || (qty <= 0)) {
+        onErrorMsg(TEXT['Please enter quantity.']);
+        return;
+    }
+
+    // Validate size
+    if (size == "" || size == undefined) {
+        onErrorMsg(TEXT['Please select a size.']);
+        return;
+    }
+
+    // Validate color
+    if (color == "" || color == undefined) {
+        onErrorMsg(TEXT['Please select a color.']);
+        return;
+    }
+
+    // Stock validation
+    if (is_stock == 1) {
+        var stockqty = $(this).data('stockqty');
+        if (is_stock_status == 1) {
+            if (qty > stockqty) {
+                onErrorMsg(TEXT['The value must be less than or equal to']);
+                return;
+            }
+        } else {
+            onErrorMsg(TEXT['This product out of stock.']);
+            return;
+        }
+    }
+
+    // Send request with size & color
+    $.ajax({
+        type: 'GET',
+        url: base_url + '/frontend/add_to_cart/' + id + '/' + qty,
+        data: { size: size, color: color },
+        dataType: "json",
+        success: function (response) {
+            var msgType = response.msgType;
+            var msg = response.msg;
+
+            if (msgType == "success") {
+                window.location.href = base_url + '/checkout';
+            } else {
+                onErrorMsg(msg);
+            }
+            onViewCart();
+        }
     });
-	
-	$(document).on("click", ".product_buy_now", function(event) {
-		event.preventDefault();
+});
 
-		var id = $(this).data('id');
-		var qty = $("#quantity").val();
-		
-		if((qty == undefined) || (qty == '') || (qty <= 0)){
-			onErrorMsg(TEXT['Please enter quantity.']);
-			return;
-		}
-		if(is_stock == 1){
-			var stockqty = $(this).data('stockqty');
-			if(is_stock_status == 1){
-				if(qty > stockqty){
-					onErrorMsg(TEXT['The value must be less than or equal to']);
-					return;
-				}
-			}else{
-				onErrorMsg(TEXT['This product out of stock.']);
-				return;
-			}
-		}
-		
-		$.ajax({
-			type : 'GET',
-			url: base_url + '/frontend/add_to_cart/'+id+'/'+qty,
-			dataType:"json",
-			success: function (response) {
-				var msgType = response.msgType;
-				var msg = response.msg;
+// Add to Cart
+$(document).on("click", ".addtocart", function (event) {
+    event.preventDefault();
 
-				if (msgType == "success") {
-					// onSuccessMsg(msg);
-					window.location.href = base_url + '/checkout';
-				} else {
-					onErrorMsg(msg);
-				}
-				onViewCart();
-			}
-		});
+    var id = $(this).data('id');
+    var qty = $("#quantity").val() || 1; // fallback to 1 if no qty input
+    var size = $("#selected_size").val();
+    var color = $("#selected_color").val();
+
+    // Validate size
+    if (size == "" || size == undefined) {
+        onErrorMsg(TEXT['Please select a size.']);
+        return;
+    }
+
+    // Validate color
+    if (color == "" || color == undefined) {
+        onErrorMsg(TEXT['Please select a color.']);
+        return;
+    }
+
+    $.ajax({
+        type: 'GET',
+        url: base_url + '/frontend/add_to_cart/' + id + '/' + qty,
+        data: { size: size, color: color },
+        dataType: "json",
+        success: function (response) {
+            var msgType = response.msgType;
+            var msg = response.msg;
+
+            if (msgType == "success") {
+                onSuccessMsg(msg);
+            } else {
+                onErrorMsg(msg);
+            }
+            onViewCart();
+        }
     });
-	
-	$(document).on("click", ".addtocart", function(event) {
-		event.preventDefault();
-		
-		var id = $(this).data('id');
-		var qty = 0;
-		$.ajax({
-			type : 'GET',
-			url: base_url + '/frontend/add_to_cart/'+id+'/'+qty,
-			dataType:"json",
-			success: function (response) {
-				var msgType = response.msgType;
-				var msg = response.msg;
+});
 
-				if (msgType == "success") {
-					onSuccessMsg(msg);
-				} else {
-					onErrorMsg(msg);
-				}
-				onViewCart();
-			}
-		});
-    });	
+
+
+	// $(document).on("click", ".product_addtocart", function(event) {
+	// 	event.preventDefault();
+
+	// 	var id = $(this).data('id');
+	// 	var qty = $("#quantity").val();
+
+	// 	if((qty == undefined) || (qty == '') || (qty <= 0)){
+	// 		onErrorMsg(TEXT['Please enter quantity.']);
+	// 		return;
+	// 	}
+	// 	if(is_stock == 1){
+	// 		var stockqty = $(this).data('stockqty');
+	// 		if(is_stock_status == 1){
+	// 			if(qty > stockqty){
+	// 				onErrorMsg(TEXT['The value must be less than or equal to']);
+	// 				return;
+	// 			}
+	// 		}else{
+	// 			onErrorMsg(TEXT['This product out of stock.']);
+	// 			return;
+	// 		}
+	// 	}
+		
+	// 	$.ajax({
+	// 		type : 'GET',
+	// 		url: base_url + '/frontend/add_to_cart/'+id+'/'+qty,
+	// 		dataType:"json",
+	// 		success: function (response) {
+	// 			var msgType = response.msgType;
+	// 			var msg = response.msg;
+
+	// 			if (msgType == "success") {
+	// 				onSuccessMsg(msg);
+	// 			} else {
+	// 				onErrorMsg(msg);
+	// 			}
+	// 			onViewCart();
+	// 		}
+	// 	});
+    // });
+	
+	// $(document).on("click", ".product_buy_now", function(event) {
+	// 	event.preventDefault();
+
+	// 	var id = $(this).data('id');
+	// 	var qty = $("#quantity").val();
+		
+	// 	if((qty == undefined) || (qty == '') || (qty <= 0)){
+	// 		onErrorMsg(TEXT['Please enter quantity.']);
+	// 		return;
+	// 	}
+	// 	if(is_stock == 1){
+	// 		var stockqty = $(this).data('stockqty');
+	// 		if(is_stock_status == 1){
+	// 			if(qty > stockqty){
+	// 				onErrorMsg(TEXT['The value must be less than or equal to']);
+	// 				return;
+	// 			}
+	// 		}else{
+	// 			onErrorMsg(TEXT['This product out of stock.']);
+	// 			return;
+	// 		}
+	// 	}
+		
+	// 	$.ajax({
+	// 		type : 'GET',
+	// 		url: base_url + '/frontend/add_to_cart/'+id+'/'+qty,
+	// 		dataType:"json",
+	// 		success: function (response) {
+	// 			var msgType = response.msgType;
+	// 			var msg = response.msg;
+
+	// 			if (msgType == "success") {
+	// 				// onSuccessMsg(msg);
+	// 				window.location.href = base_url + '/checkout';
+	// 			} else {
+	// 				onErrorMsg(msg);
+	// 			}
+	// 			onViewCart();
+	// 		}
+	// 	});
+    // });
+	
+	// $(document).on("click", ".addtocart", function(event) {
+	// 	event.preventDefault();
+		
+	// 	var id = $(this).data('id');
+	// 	var qty = 0;
+	// 	$.ajax({
+	// 		type : 'GET',
+	// 		url: base_url + '/frontend/add_to_cart/'+id+'/'+qty,
+	// 		dataType:"json",
+	// 		success: function (response) {
+	// 			var msgType = response.msgType;
+	// 			var msg = response.msg;
+
+	// 			if (msgType == "success") {
+	// 				onSuccessMsg(msg);
+	// 			} else {
+	// 				onErrorMsg(msg);
+	// 			}
+	// 			onViewCart();
+	// 		}
+	// 	});
+    // });	
 	
 	$(document).on("click", ".addtowishlist", function(event) {
 		event.preventDefault();

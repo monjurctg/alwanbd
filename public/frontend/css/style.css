@@ -4461,3 +4461,19 @@ ul.errors-list li {
     color: #fff;
     border-color: #333;
 }
+
+
+.widget-size .unit,
+.widget-color .color-option {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.widget-size .unit.active,
+.widget-color .color-option.active {
+    border-color: #000;
+    background: #333;
+    color: #fff;
+}
