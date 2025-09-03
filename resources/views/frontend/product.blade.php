@@ -116,23 +116,28 @@
 
 									@if($gtext['currency_position'] == 'left')
 										<div class="old-item-price">
-											{{ $gtext['currency_icon'] }}{{ NumberFormat($data->old_price) }}</div><span
-											class="discount">-{{ $discount }}%</span>
+											{{ $gtext['currency_icon'] }}{{ NumberFormat($data->old_price) }}
+										</div><span class="discount">-{{ $discount }}%</span>
 									@else
 										<div class="old-item-price">
-											{{ NumberFormat($data->old_price) }}{{ $gtext['currency_icon'] }}</div><span
-											class="discount">-{{ $discount }}%</span>
+											{{ NumberFormat($data->old_price) }}{{ $gtext['currency_icon'] }}
+										</div><span class="discount">-{{ $discount }}%</span>
 									@endif
 								@endif
 							</div>
+							{{-- Size Variation --}}
 							@if(!empty($data->variation_size))
 								@php
 									$sizes = json_decode($data->variation_size, true);
+									// যদি double encoded হয়ে থাকে
+									if (is_string($sizes)) {
+										$sizes = json_decode($sizes, true);
+									}
 								@endphp
 
 								@if(is_array($sizes) && count($sizes) > 0)
 									<div class="pr_widget">
-										<label class="widget-title">{{ __('Unit') }}</label>
+										<label class="widget-title">{{ __('Size') }}</label>
 										<ul class="widget-size">
 											@foreach($sizes as $size)
 												<li class="unit @if($loop->first) active @endif" data-value="{{ $size }}">
@@ -143,6 +148,32 @@
 									</div>
 								@endif
 							@endif
+
+
+							{{-- Color Variation --}}
+							@if(!empty($data->variation_color))
+								@php
+									$colors = json_decode($data->variation_color, true);
+									// যদি double encoded হয়ে থাকে
+									if (is_string($colors)) {
+										$colors = json_decode($colors, true);
+									}
+								@endphp
+
+								@if(is_array($colors) && count($colors) > 0)
+									<div class="pr_widget">
+										<label class="widget-title">{{ __('Color') }}</label>
+										<ul class="widget-color">
+											@foreach($colors as $color)
+												<li class="unit @if($loop->first) active @endif" data-value="{{ $color }}">
+													{{ ucfirst($color) }}
+												</li>
+											@endforeach
+										</ul>
+									</div>
+								@endif
+							@endif
+
 
 							<div class="pr_quantity">
 								<label for="quantity">{{ __('Quantity') }}</label>
@@ -303,7 +334,8 @@
 												<div class="col-lg-12">
 													<div class="review-heading">
 														<h4>{{ $data->TotalReview }} {{ __('reviews for') }} -
-															{{ $data->title }}</h4>
+															{{ $data->title }}
+														</h4>
 													</div>
 													<div id="tp_datalist">
 														@include('frontend.partials.products-reviews-grid')
@@ -336,7 +368,8 @@
 																href="{{ route('frontend.stores', [$data->seller_id, str_slug($data->shop_url)]) }}">{{ $seller_data->shop_name }}</a>
 														</h3>
 														<h6 class="since">{{ __('Since') }}
-															{{ date('Y', strtotime($seller_data->created_at)) }}</h6>
+															{{ date('Y', strtotime($seller_data->created_at)) }}
+														</h6>
 														<div class="rating-wrap">
 															<div class="stars-outer">
 																<div class="stars-inner"
@@ -394,7 +427,8 @@
 											<span class="item-label">{{ $discount }}% {{ __('Off') }}</span>
 										@endif
 										<a href="{{ route('frontend.product', [$row->id, $row->slug]) }}"><img
-												src="{{ asset('public/media/' . $row->f_thumbnail) }}" alt="{{ $row->title }}" /></a>
+												src="{{ asset('public/media/' . $row->f_thumbnail) }}"
+												alt="{{ $row->title }}" /></a>
 									</div>
 									<div class="item-title">
 										<a
@@ -457,7 +491,8 @@
 											<span class="item-label">{{ $discount }}% {{ __('Off') }}</span>
 										@endif
 										<a href="{{ route('frontend.product', [$row->id, $row->slug]) }}"><img
-												src="{{ asset('public/media/' . $row->f_thumbnail) }}" alt="{{ $row->title }}" /></a>
+												src="{{ asset('public/media/' . $row->f_thumbnail) }}"
+												alt="{{ $row->title }}" /></a>
 									</div>
 									<div class="item-title">
 										<a
