@@ -116,7 +116,12 @@ $gtax = getTax();
 									<td class="pro-store-w" data-title="{{ __('Sold By') }}:">
 										<a href="{{ route('frontend.stores', [$row['seller_id'], str_slug($row['store_name'])]) }}">{{ $row['store_name'] }}</a>
 									</td>
-								
+									<td class="text-center pro-variation-w" data-title="{{ __('Size') }}:">
+										<span class="pro-variation">{{ $row['size'] }}</span>
+									</td>
+									<td class="text-center pro-variation-w" data-title="{{ __('Color') }}:">
+										<span class="pro-variation">{{ $row['color'] }}</span>
+									</td>
 									<td class="text-center pro-price-w" data-title="{{ __('Price') }}:">
 										<span class="pro-price"><span class="pro-price">{{ $price }}</span></span>
 									</td>
