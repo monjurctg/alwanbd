@@ -98,6 +98,7 @@
 										href="{{ route('frontend.stores', [$data->seller_id, str_slug($data->shop_url)]) }}">{{ $data->shop_name }}</a>
 								</div>
 							@endif
+							
 							<div class="product_price">
 								@if($data->sale_price != '')
 									@if($gtext['currency_position'] == 'left')
