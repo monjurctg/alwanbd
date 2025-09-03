@@ -5308,6 +5308,7 @@ ul.errors-list li {
 	 /* width: 30px;
 	height: 30px; */
 	border-radius: 10px;
+	cursor: pointer;
 /* 	
 	border: 2px solid #ddd;
 	cursor: pointer;
@@ -5347,9 +5348,9 @@ ul.errors-list li {
 }
 
 .widget-size .unit.active {
-	background-color: #333;
-	color: #fff;
-	border-color: #333;
+	    background: var(--theme-color);
+    color: var(--color-white);
+    border: 1px solid var(--theme-color);
 }
 
 
@@ -5365,7 +5366,7 @@ ul.errors-list li {
 
 .widget-size .unit.active,
 .widget-color .color-option.active {
-	border-color: #000;
-	background: #333;
-	color: #fff;
+	border: 1px solid var(--theme-color);
+	background: var(--theme-color);
+	color: var(--color-white);
 }
