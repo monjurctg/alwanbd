@@ -62,6 +62,7 @@ class CartController extends Controller
 				"price" => $product->sale_price,
 				"weight" => 0,
 				"thumbnail" => $product->f_thumbnail,
+				"unit" => $product->unit,
 				"size" => $selectedSize,
 				"color" => $selectedColor,
 				"seller_id" => $product->user_id,
