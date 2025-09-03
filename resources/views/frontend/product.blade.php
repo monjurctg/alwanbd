@@ -148,10 +148,9 @@
 									</div>
 								@endif
 							@endif
-							F
+							
 
 
-							{{ print_r($sizes) }}
 
 							{{-- Color Variation --}}
 							@if(!empty($product->variation_color))
