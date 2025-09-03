@@ -5305,13 +5305,13 @@ ul.errors-list li {
 }
 
 .widget-color .color-option {
-	width: 30px;
-	height: 30px;
-	border-radius: 50%;
-	/* makes it a circle */
+	 /* width: 30px;
+	height: 30px; */
+	border-radius: 10px;
+/* 	
 	border: 2px solid #ddd;
 	cursor: pointer;
-	transition: all 0.2s ease;
+	transition: all 0.2s ease;  */
 }
 
 .widget-color .color-option:hover {
@@ -5360,6 +5360,7 @@ ul.errors-list li {
 	border: 1px solid var(--color-light-green);
 	text-transform: uppercase;
 	color: var(--color-black);
+	
 }
 
 .widget-size .unit.active,
