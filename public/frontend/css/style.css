@@ -4406,3 +4406,58 @@ ul.errors-list li {
 
 /* Optional: compact the “Show More” item */
 .cat-more-btn { display: block; text-align: center; margin-top: 8px; }
+
+
+/* size color */
+.widget-color {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;          /* align in one row */
+    gap: 10px;              /* spacing between colors */
+}
+
+.widget-color .color-option {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;     /* makes it a circle */
+    border: 2px solid #ddd;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.widget-color .color-option:hover {
+    border-color: #333;
+}
+
+.widget-color .color-option.active {
+    border-color: #000;
+}
+
+
+.widget-size {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;           /* puts all items in one row */
+    gap: 10px;               /* spacing between items */
+}
+
+.widget-size .unit {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.widget-size .unit:hover {
+    background-color: #f5f5f5;
+    border-color: #aaa;
+}
+
+.widget-size .unit.active {
+    background-color: #333;
+    color: #fff;
+    border-color: #333;
+}
