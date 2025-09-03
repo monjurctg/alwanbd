@@ -126,7 +126,7 @@
 									@endif
 								@endif
 							</div>
-
+{{ print_r(json_decode($product->variation_size, true)) }}
 
 							{{-- Size Variation --}}
 							@if(!empty($product->variation_size))
