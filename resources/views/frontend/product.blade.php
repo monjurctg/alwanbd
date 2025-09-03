@@ -126,14 +126,15 @@
 									@endif
 								@endif
 							</div>
-							
+
 
 							{{-- Size Variation --}}
 							@if(!empty($product->variation_size))
 								@php
-									$sizes = json_decode(trim($product->variation_size, "'"), true);
-
+									$sizes = json_decode($product->variation_size, true);
 								@endphp
+
+								{{-- Debug --}}
 								{{ print_r($sizes) }}
 
 								@if(is_array($sizes) && count($sizes) > 0)
@@ -147,7 +148,8 @@
 									</div>
 								@endif
 							@endif
-							
+							F
+
 
 							{{ print_r($sizes) }}
 
