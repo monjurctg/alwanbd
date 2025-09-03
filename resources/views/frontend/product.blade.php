@@ -538,7 +538,37 @@
 				</div>
 			</div>
 		</section>
+
+
 		<!-- /Popular Products/ -->
+
+
+		<div class="modal" id="variationModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Select Variation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="pr_widget">
+          <label>Size</label>
+          <ul class="widget-size" id="modal-sizes"></ul>
+        </div>
+        <div class="pr_widget">
+          <label>Color</label>
+          <ul class="widget-color" id="modal-colors"></ul>
+        </div>
+        <input type="hidden" id="modal-selected-size">
+        <input type="hidden" id="modal-selected-color">
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="modal-add-to-cart" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 	</main>
 
 @endsection

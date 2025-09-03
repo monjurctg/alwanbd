@@ -89,44 +89,115 @@ $(document).on("click", ".product_buy_now", function (event) {
 });
 
 // Add to Cart
+
+
+// $(document).on("click", ".addtocart", function (event) {
+//     event.preventDefault();
+
+//     var id = $(this).data('id');
+//     var qty = $("#quantity").val() || 1; // fallback to 1 if no qty input
+//     var size = $("#selected_size").val();
+//     var color = $("#selected_color").val();
+
+//     // Validate size
+//     if (size == "" || size == undefined) {
+//         onErrorMsg('Please select a size.');
+//         return;
+//     }
+
+//     // Validate color
+//     if (color == "" || color == undefined) {
+//         onErrorMsg('Please select a color.');
+//         return;
+//     }
+
+//     $.ajax({
+//         type: 'GET',
+//         url: base_url + '/frontend/add_to_cart/' + id + '/' + qty,
+//         data: { size: size, color: color },
+//         dataType: "json",
+//         success: function (response) {
+//             var msgType = response.msgType;
+//             var msg = response.msg;
+
+//             if (msgType == "success") {
+//                 onSuccessMsg(msg);
+//             } else {
+//                 onErrorMsg(msg);
+//             }
+//             onViewCart();
+//         }
+//     });
+// });
+
+
+var currentProductId = null;
+var currentQty = 1;
+
+// Click on addtocart
 $(document).on("click", ".addtocart", function (event) {
     event.preventDefault();
 
-    var id = $(this).data('id');
-    var qty = $("#quantity").val() || 1; // fallback to 1 if no qty input
+    currentProductId = $(this).data('id');
+    currentQty = $("#quantity").val() || 1;
+
     var size = $("#selected_size").val();
     var color = $("#selected_color").val();
 
-    // Validate size
-    if (size == "" || size == undefined) {
-        onErrorMsg('Please select a size.');
+    if (!size || !color) {
+        // Populate modal options dynamically if needed
+        $("#modal-sizes").html($("#size-options").html());   // copy sizes
+        $("#modal-colors").html($("#color-options").html()); // copy colors
+        $("#variationModal").modal('show'); // show bootstrap modal
         return;
     }
 
-    // Validate color
-    if (color == "" || color == undefined) {
-        onErrorMsg('Please select a color.');
-        return;
-    }
+    addToCartAJAX(currentProductId, currentQty, size, color);
+});
 
+// Select size inside modal
+$(document).on("click", "#modal-sizes .unit", function () {
+    $("#modal-sizes .unit").removeClass("active");
+    $(this).addClass("active");
+    $("#modal-selected-size").val($(this).data("size"));
+});
+
+// Select color inside modal
+$(document).on("click", "#modal-colors .color-option", function () {
+    $("#modal-colors .color-option").removeClass("active");
+    $(this).addClass("active");
+    $("#modal-selected-color").val($(this).data("color"));
+});
+
+// Confirm add to cart inside modal
+$(document).on("click", "#modal-add-to-cart", function () {
+    var size = $("#modal-selected-size").val();
+    var color = $("#modal-selected-color").val();
+
+    if (!size) { alert("Please select a size."); return; }
+    if (!color) { alert("Please select a color."); return; }
+
+    $("#variationModal").modal('hide');
+    addToCartAJAX(currentProductId, currentQty, size, color);
+});
+
+// AJAX function
+function addToCartAJAX(id, qty, size, color) {
     $.ajax({
         type: 'GET',
         url: base_url + '/frontend/add_to_cart/' + id + '/' + qty,
         data: { size: size, color: color },
         dataType: "json",
         success: function (response) {
-            var msgType = response.msgType;
-            var msg = response.msg;
-
-            if (msgType == "success") {
-                onSuccessMsg(msg);
+            if (response.msgType == "success") {
+                onSuccessMsg(response.msg);
             } else {
-                onErrorMsg(msg);
+                onErrorMsg(response.msg);
             }
             onViewCart();
         }
     });
-});
+}
 
 
 $(document).on("click", ".product_addtocart", function(event) {
