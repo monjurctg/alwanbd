@@ -314,7 +314,7 @@ $tax_rate = $gtax['percentage'];
 											if($row['size'] == '0'){
 												$unit = '';
 											}else{
-												$unit = '<strong>'.$row['qty'].' '.$row['size'].'</strong>';
+												$unit = '<strong>'.$row['qty'].' '.$row['size'].' '.$row['color'].'</strong>';
 											}
 											@endphp
 
