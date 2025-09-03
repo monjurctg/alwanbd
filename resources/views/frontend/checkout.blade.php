@@ -280,7 +280,9 @@ $tax_rate = $gtax['percentage'];
 												'price' => $row['price'],
 												'weight' => $row['weight'],
 												'thumbnail' => $row['thumbnail'],
-												'unit' => $row['unit'],
+												'unit' => $row['size'],
+												'size' => $row['size'],
+												'color' => $row['color'],
 												'seller_id' => $row['seller_id'],
 												'seller_name' => $row['seller_name'],
 												'store_name' => $row['store_name'],
@@ -309,10 +311,10 @@ $tax_rate = $gtax['percentage'];
 
 										@foreach($CartData_Arr as $row)
 											@php
-											if($row['unit'] == '0'){
+											if($row['size'] == '0'){
 												$unit = '';
 											}else{
-												$unit = '<strong>'.$row['qty'].' '.$row['unit'].'</strong>';
+												$unit = '<strong>'.$row['qty'].' '.$row['size'].'</strong>';
 											}
 											@endphp
 
