@@ -126,6 +126,7 @@
 								@endif
 							</div>
 							<pre>{{ $data->variation_size }}</pre>
+							<p>test</p>
 							<pre>{{ json_encode(json_decode($data->variation_size, true)) }}</pre>
 
 							{{-- Size Variation --}}
