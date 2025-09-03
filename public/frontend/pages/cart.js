@@ -137,13 +137,14 @@ var currentQty = 1;
 // Click on addtocart
 $(document).on("click", ".addtocart", function (event) {
     event.preventDefault();
+	
 
     currentProductId = $(this).data('id');
     currentQty = $("#quantity").val() || 1;
 
     var size = $("#selected_size").val();
     var color = $("#selected_color").val();
-
+    console.log(size, color);
     if (!size || !color) {
         // Populate modal options dynamically if needed
         $("#modal-sizes").html($("#size-options").html());   // copy sizes
