@@ -13,40 +13,69 @@ class CartController extends Controller
 	//Add to Cart
 	public function AddToCart($id, $qty, Request $request)
 	{
+		$res = [];
 
-		$res = array();
-		$datalist = Product::where('id', $id)->first();
-		$user = User::where('id', $datalist['user_id'])->first();
+		// Get product and seller info
+		$product = Product::find($id);
+		if (!$product) {
+			$res['msgType'] = 'error';
+			$res['msg'] = __('Product not found');
+			return response()->json($res);
+		}
 
+		$user = User::find($product->user_id);
+
+		// Quantity fallback
 		$quantity = $qty == 0 ? 1 : $qty;
-		$cart = session()->get('shopping_cart', []);
+
+		// Get selected size and color from request
 		$selectedSize = $request->input('size', '');
 		$selectedColor = $request->input('color', '');
 
-		if (isset($cart[$id])) {
-			$cart[$id]['qty'] = $cart[$id]['qty'] + $quantity;
+		// Validate size & color
+		if (empty($selectedSize)) {
+			$res['msgType'] = 'error';
+			$res['msg'] = __('Please select a size.');
+			return response()->json($res);
+		}
+
+		if (empty($selectedColor)) {
+			$res['msgType'] = 'error';
+			$res['msg'] = __('Please select a color.');
+			return response()->json($res);
+		}
+
+		// Get cart session
+		$cart = session()->get('shopping_cart', []);
+
+		// Use unique cart key per variation
+		$cartKey = $id . '_' . $selectedSize . '_' . $selectedColor;
+
+		// Add or update cart
+		if (isset($cart[$cartKey])) {
+			$cart[$cartKey]['qty'] += $quantity;
 		} else {
-			$cart[$id] = [
-				"id" => $datalist['id'],
-				"name" => $datalist['title'],
+			$cart[$cartKey] = [
+				"id" => $product->id,
+				"name" => $product->title,
 				"qty" => $quantity,
-				"price" => $datalist['sale_price'],
+				"price" => $product->sale_price,
 				"weight" => 0,
-				"thumbnail" => $datalist['f_thumbnail'],
-				"unit" => $datalist['variation_size'],
-				"size" => $selectedSize,        // ✅ save selected size
+				"thumbnail" => $product->f_thumbnail,
+				"size" => $selectedSize,
 				"color" => $selectedColor,
-				"seller_id" => $datalist['user_id'],
-				"seller_name" => $user['name'],
-				"store_name" => $user['shop_name'],
-				"store_logo" => $user['photo'],
-				"store_url" => $user['shop_url'],
-				"seller_email" => $user['email'],
-				"seller_phone" => $user['phone'],
-				"seller_address" => $user['address']
+				"seller_id" => $product->user_id,
+				"seller_name" => $user->name,
+				"store_name" => $user->shop_name,
+				"store_logo" => $user->photo,
+				"store_url" => $user->shop_url,
+				"seller_email" => $user->email,
+				"seller_phone" => $user->phone,
+				"seller_address" => $user->address
 			];
 		}
 
+		// Save cart session
 		session()->put('shopping_cart', $cart);
 
 		$res['msgType'] = 'success';
@@ -54,6 +83,7 @@ class CartController extends Controller
 
 		return response()->json($res);
 	}
+
 
 	//Add to Cart
 	public function ViewCart()
@@ -83,17 +113,22 @@ class CartController extends Controller
 				}
 
 				$items .= '<li>
-							<div class="cart-item-card">
-								<a data-id="' . $row['id'] . '" id="removetocart_' . $row['id'] . '" onclick="onRemoveToCart(' . $row['id'] . ')" href="javascript:void(0);" class="item-remove"><i class="bi bi-x"></i></a>
-								<div class="cart-item-img">
-									<img src="' . $Path . '/' . $row['thumbnail'] . '" alt="' . $row['name'] . '" />
-								</div>
-								<div class="cart-item-desc">
-									<h6><a href="' . route('frontend.product', [$row['id'], str_slug($row['name'])]) . '">' . $row['name'] . '</a></h6>
-									<p>' . $price . '</p>
-								</div>
-							</div>
-						</li>';
+    <div class="cart-item-card">
+        <a data-id="' . $row['id'] . '" id="removetocart_' . $row['id'] . '" onclick="onRemoveToCart(' . $row['id'] . ')" href="javascript:void(0);" class="item-remove"><i class="bi bi-x"></i></a>
+        <div class="cart-item-img">
+            <img src="' . $Path . '/' . $row['thumbnail'] . '" alt="' . $row['name'] . '" />
+        </div>
+        <div class="cart-item-desc">
+            <h6><a href="' . route('frontend.product', [$row['id'], str_slug($row['name'])]) . '">' . $row['name'] . '</a></h6>
+            <p>' . $price . '</p>
+            <p>
+                <span>' . __('Size') . ': ' . ($row['size'] ?? '') . '</span> |
+                <span>' . __('Color') . ': ' . ($row['color'] ?? '') . '</span>
+            </p>
+        </div>
+    </div>
+</li>';
+
 			}
 		}
 
