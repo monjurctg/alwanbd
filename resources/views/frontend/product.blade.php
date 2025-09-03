@@ -125,13 +125,15 @@
 									@endif
 								@endif
 							</div>
-							\
+							
 
 							{{-- Size Variation --}}
 							@if(!empty($product->variation_size))
 								@php
 									$sizes = json_decode(trim($product->variation_size, "'"), true);
+
 								@endphp
+								{{ print_r($sizes) }}
 
 								@if(is_array($sizes) && count($sizes) > 0)
 									<div class="pr_widget">
