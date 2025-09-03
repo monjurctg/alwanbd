@@ -127,6 +127,7 @@
 								@endif
 							</div>
 
+						
 
 							{{-- Size Variation --}}
 							@if(!empty($data->variation_size))
@@ -138,12 +139,12 @@
 
 								@if(is_array($sizes) && count($sizes) > 0)
 									<div class="pr_widget">
-										<label class="widget-title">Size</label>
-										<select name="size" required>
+										<label class="widget-title">{{ __('Unit') }}</label>
+										<ul class="widget-size">
 											@foreach($sizes as $size)
-												<option value="{{ $size }}">{{ $size }}</option>
+												<li class="unit active">{{ $data->variation_size }}</li>
 											@endforeach
-										</select>
+										</ul>
 									</div>
 								@endif
 							@endif
