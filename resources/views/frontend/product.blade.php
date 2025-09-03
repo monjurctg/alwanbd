@@ -125,6 +125,10 @@
 									@endif
 								@endif
 							</div>
+							<pre>
+{{ $data->variation_size }}
+</pre>
+
 							{{-- Size Variation --}}
 							@if(!empty($data->variation_size))
 								@php
