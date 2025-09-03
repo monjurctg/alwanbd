@@ -157,9 +157,9 @@
 								@if(is_array($colors) && count($colors) > 0)
 									<div class="pr_widget">
 										<label class="widget-title">{{ __('Color') }}</label>
-										<ul class="widget-size" id="color-options">
+										<ul class="widget-color" id="color-options">
 											@foreach($colors as $color)
-												<li class="color-option unit" data-color="{{ $color }}">{{ ucfirst($color) }}</li>
+												<li class="color-option" data-color="{{ $color }}">{{ ucfirst($color) }}</li>
 											@endforeach
 										</ul>
 										<input type="hidden" name="selected_color" id="selected_color">
