@@ -38,19 +38,19 @@ $(document).on("click", ".product_buy_now", function (event) {
 
     // Validate qty
     if ((qty == undefined) || (qty == '') || (qty <= 0)) {
-        onErrorMsg(TEXT['Please enter quantity.']);
+        onErrorMsg('Please enter quantity.');
         return;
     }
 
     // Validate size
     if (size == "" || size == undefined) {
-        onErrorMsg(TEXT['Please select a size.']);
+        onErrorMsg('Please select a size.');
         return;
     }
 
     // Validate color
     if (color == "" || color == undefined) {
-        onErrorMsg(TEXT['Please select a color.']);
+        onErrorMsg('Please select a color.');
         return;
     }
 
@@ -59,11 +59,11 @@ $(document).on("click", ".product_buy_now", function (event) {
         var stockqty = $(this).data('stockqty');
         if (is_stock_status == 1) {
             if (qty > stockqty) {
-                onErrorMsg(TEXT['The value must be less than or equal to']);
+                onErrorMsg('The value must be less than or equal to');
                 return;
             }
         } else {
-            onErrorMsg(TEXT['This product out of stock.']);
+            onErrorMsg('This product out of stock.');
             return;
         }
     }
@@ -99,13 +99,13 @@ $(document).on("click", ".addtocart", function (event) {
 
     // Validate size
     if (size == "" || size == undefined) {
-        onErrorMsg(TEXT['Please select a size.']);
+        onErrorMsg('Please select a size.');
         return;
     }
 
     // Validate color
     if (color == "" || color == undefined) {
-        onErrorMsg(TEXT['Please select a color.']);
+        onErrorMsg('Please select a color.');
         return;
     }
 
@@ -139,19 +139,19 @@ $(document).on("click", ".product_addtocart", function(event) {
 
     // Validate quantity
     if((qty == undefined) || (qty == '') || (qty <= 0)){
-        onErrorMsg(TEXT['Please enter quantity.']);
+        onErrorMsg('Please enter quantity.');
         return;
     }
 
     // Validate size
     if(size == "" || size == undefined){
-        onErrorMsg(TEXT['Please select a size.']);
+        onErrorMsg('Please select a size.');
         return;
     }
 
     // Validate color
     if(color == "" || color == undefined){
-        onErrorMsg(TEXT['Please select a color.']);
+        onErrorMsg('Please select a color.');
         return;
     }
 
@@ -160,11 +160,11 @@ $(document).on("click", ".product_addtocart", function(event) {
         var stockqty = $(this).data('stockqty');
         if(is_stock_status == 1){
             if(qty > stockqty){
-                onErrorMsg(TEXT['The value must be less than or equal to']);
+                onErrorMsg('The value must be less than or equal to');
                 return;
             }
         } else {
-            onErrorMsg(TEXT['This product out of stock.']);
+            onErrorMsg('This product out of stock.');
             return;
         }
     }
