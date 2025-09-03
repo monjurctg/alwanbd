@@ -125,9 +125,8 @@
 									@endif
 								@endif
 							</div>
-							<pre>
-{{ $data->variation_size }}
-</pre>
+							<pre>{{ $data->variation_size }}</pre>
+							<pre>{{ json_encode(json_decode($data->variation_size, true)) }}</pre>
 
 							{{-- Size Variation --}}
 							@if(!empty($data->variation_size))
