@@ -143,23 +143,7 @@
 									</div>
 								@endif
 							@endif
-							@if(!empty($data->variation_color))
-								@php
-									$colors = json_decode($data->variation_color, true);
-								@endphp
 
-								@if(is_array($colors) && count($colors) > 0)
-									<div class="pr_widget">
-										<label class="widget-title">{{ __('Color') }}</label>
-										<ul class="widget-color">
-											@foreach($colors as $color)
-												<li class="color @if($loop->first) active @endif" data-value="{{ $color }}"
-													style="background: {{ $color }};">
-												</li>
-											@endforeach
-										</ul>
-									</div>
-								@endif
 							<div class="pr_quantity">
 								<label for="quantity">{{ __('Quantity') }}</label>
 								<input name="quantity" id="quantity" type="number" min="1"
