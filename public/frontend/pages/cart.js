@@ -144,7 +144,7 @@ $(document).on("click", ".addtocart", function (event) {
 
     var size = $("#selected_size").val();
     var color = $("#selected_color").val();
-    console.log(size, color);
+   
     if (!size || !color) {
         // Populate modal options dynamically if needed
         $("#modal-sizes").html($("#size-options").html());   // copy sizes
