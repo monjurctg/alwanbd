@@ -118,7 +118,7 @@ class CartController extends Controller
 			$items .= '<li>
 						<div class="cart-item-card">
 							<a data-id="' . $cartKey . '"
-							id="removetocart_' . $cartKey . '"
+							id="removetoviewcart_' . $cartKey . '"
 							onclick="onRemoveToCart(\'' . $cartKey . '\')"
 							href="javascript:void(0);"
 							class="item-remove">

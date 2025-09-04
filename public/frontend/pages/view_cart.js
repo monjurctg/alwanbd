@@ -8,7 +8,7 @@ $(function () {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
 	});
-	
+
 	onViewCartData();
 });
 
@@ -29,28 +29,28 @@ function onViewCartData() {
 	});
 }
 
-function onRemoveToCart(id) {
-	var rowid = $("#removetoviewcart_"+id).data('id');
+// function onRemoveToCart(id) {
+// 	var rowid = $("#removetoviewcart_"+id).data('id');
 
-	$.ajax({
-		type : 'GET',
-		url: base_url + '/frontend/remove_to_cart/'+rowid,
-		dataType:"json",
-		success: function (response) {
-			
-			var msgType = response.msgType;
-			var msg = response.msg;
+// 	$.ajax({
+// 		type : 'GET',
+// 		url: base_url + '/frontend/remove_to_cart/'+rowid,
+// 		dataType:"json",
+// 		success: function (response) {
 
-			if (msgType == "success") {
-				onSuccessMsg(msg);
-				$('#row_delete_'+id).remove();
-			} else {
-				onErrorMsg(msg);
-			}
-			
-			onViewCartData();
-			onViewCart();
-		}
-	});
-}
+// 			var msgType = response.msgType;
+// 			var msg = response.msg;
+
+// 			if (msgType == "success") {
+// 				onSuccessMsg(msg);
+// 				$('#row_delete_'+id).remove();
+// 			} else {
+// 				onErrorMsg(msg);
+// 			}
+
+// 			onViewCartData();
+// 			onViewCart();
+// 		}
+// 	});
+// }
 

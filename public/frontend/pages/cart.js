@@ -446,7 +446,8 @@ function onViewCart() {
 }
 
 function onRemoveToCart(cartKey) {
-    var rowid = $("#removetocart_" + cartKey).data('id');
+
+    var rowid = $("#removetoviewcart_" + cartKey).data('id');
 
     $.ajax({
         type : 'GET',
