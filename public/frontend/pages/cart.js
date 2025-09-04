@@ -447,6 +447,7 @@ function onViewCart() {
 
 function onRemoveToCart(cartKey) {
     var rowid = $("#removetocart_" + cartKey).data('id');
+    console.log(rowid,"rowid")
 
     $.ajax({
         type : 'GET',
@@ -455,11 +456,13 @@ function onRemoveToCart(cartKey) {
         success: function (response) {
             var msgType = response.msgType;
             var msg = response.msg;
+            console.log({response})
 
             if (msgType === "success") {
                 onSuccessMsg(msg);
             } else {
                 onErrorMsg(msg);
+                console.log('Error: ' + msg);
             }
 
             onViewCart(); // refresh cart
