@@ -457,7 +457,7 @@
 											@endif
 										@endif
 									</div>
-									<!-- <div class="item-card-bottom">
+									<div class="item-card-bottom">
 										<a class="btn add-to-cart addtocart" data-variation-color='{{  $row->variation_color}}'
 											data-variation-size='{{ $row->variation_size }}' data-id="{{ $row->id }}"
 											href="javascript:void(0);">{{ __('Add To Cart') }}</a>
@@ -467,7 +467,7 @@
 											<li><a href="{{ route('frontend.product', [$row->id, $row->slug]) }}"><i
 														class="bi bi-eye"></i></a></li>
 										</ul>
-									</div> -->
+									</div>
 								</div>
 							</div>
 						@endforeach

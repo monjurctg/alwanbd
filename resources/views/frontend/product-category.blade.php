@@ -56,7 +56,7 @@
 		</div>
 	</div>
 	<!-- /Page Breadcrumb/ -->
-	
+
 	<!-- Inner Section -->
 	<section class="inner-section inner-section-bg">
 		<div class="container">
@@ -101,11 +101,11 @@
 							</div>
 						</div>
 					</div>
-					
-					<div id="tp_datalist">
+
+					<!-- <div id="tp_datalist">
 						@include('frontend.partials.product-category-grid')
-					</div>
-			
+					</div> -->
+
 			@if($category_variation == 'left_sidebar')
 				</div>
 			</div>
@@ -119,7 +119,7 @@
 		</div>
 	</section>
 	<!-- /Inner Section/ -->
-	
+
 </main>
 
 @endsection
@@ -129,4 +129,4 @@
 var category_id = "{{ isset($params) ? $params['category_id'] : 0 }}";
 </script>
 <script src="{{asset('public/frontend/pages/product-category.js')}}"></script>
-@endpush	
+@endpush
