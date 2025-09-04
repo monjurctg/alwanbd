@@ -49,7 +49,10 @@
 					@endif
 				</div>
 				<div class="item-card-bottom">
-					<a data-id="{{ $row->id }}" href="javascript:void(0);" class="btn add-to-cart addtocart">{{ __('Add To Cart') }}</a>
+					<a
+					data-variation-color='{{  $row->variation_color}}'
+					data-variation-size='{{ $row->variation_size }}'
+					data-id="{{ $row->id }}" href="javascript:void(0);" class="btn add-to-cart addtocart">{{ __('Add To Cart') }}</a>
 					<ul class="item-cart-list">
 						<li><a class="addtowishlist" data-id="{{ $row->id }}" href="javascript:void(0);"><i class="bi bi-heart"></i></a></li>
 						<li><a href="{{ route('frontend.product', [$row->id, $row->slug]) }}"><i class="bi bi-eye"></i></a></li>
