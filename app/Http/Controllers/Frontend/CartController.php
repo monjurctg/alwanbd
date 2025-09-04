@@ -115,7 +115,7 @@ class CartController extends Controller
 					$price = '<span id="product-quatity">' . $row['qty'] . '</span> x ' . $row['price'] . $gtext['currency_icon'];
 				}
 
-			$items .= '<li>
+				$items .= '<li>
 						<div class="cart-item-card">
 							<a data-id="' . $cartKey . '"
 							id="removetoviewcart_' . $cartKey . '"
@@ -171,20 +171,20 @@ class CartController extends Controller
 
 	//Remove to Cart
 	public function RemoveToCart($rowid)
-{
-    $cart = session()->get('shopping_cart', []);
+	{
+		$cart = session()->get('shopping_cart', []);
 
-    if (isset($cart[$rowid])) {
-        unset($cart[$rowid]);
-        session()->put('shopping_cart', $cart);
-    }
+		if (isset($cart[$rowid])) {
+			unset($cart[$rowid]);
+			session()->put('shopping_cart', $cart);
+		}
 
-    return response()->json([
-        'msgType' => 'success',
-        'msg' => __('Data Removed Successfully'),
-        'cart' => $cart
-    ]);
-}
+		return response()->json([
+			'msgType' => 'success',
+			'msg' => __('Data Removed Successfully'),
+			'cart' => $cart
+		]);
+	}
 
 
 	//get Cart
@@ -194,55 +194,66 @@ class CartController extends Controller
 	}
 
 	//get Cart
-	public function getViewCartData()
-	{
-		$gtext = gtext();
-		$gtax = getTax();
-		$taxRate = $gtax['percentage'];
+public function getViewCartData()
+{
+    $gtext = gtext();
+    $gtax = getTax();
+    $taxRate = $gtax['percentage'] ?? 0;
 
-		$ShoppingCartData = session()->get('shopping_cart');
-		$count = 0;
-		$Total_Price = 0;
-		$Sub_Total = 0;
-		$tax = 0;
-		$total = 0;
+    $ShoppingCartData = session()->get('shopping_cart', []);
 
-		if (session()->get('shopping_cart')) {
-			foreach ($ShoppingCartData as $row) {
-				$count += $row['qty'];
-				$Total_Price += $row['price'] * $row['qty'];
-				$Sub_Total += $row['price'] * $row['qty'];
-			}
-		}
 
-		$TotalPrice = NumberFormat($Total_Price);
-		$SubTotal = NumberFormat($Sub_Total);
+    $count = 0;
+    $Total_Price = 0;
+    $Sub_Total = 0;
+    $tax = 0;
+    $total = 0;
+    $discount = 0;
 
-		$TaxCal = ($Total_Price * $taxRate) / 100;
-		$tax = NumberFormat($TaxCal);
+    if (!empty($ShoppingCartData)) {
+        foreach ($ShoppingCartData as $row) {
+            $qty = is_numeric($row['qty']) ? $row['qty'] : 0;
+            $price = is_numeric($row['price']) ? $row['price'] : 0;
 
-		$total = $SubTotal + $TaxCal;
-		$GrandTotal = NumberFormat($total);
-		$discount = 0;
+            $count += $qty;
+            $Total_Price += $price * $qty;
+            $Sub_Total += $price * $qty;
+        }
+    }
 
-		$datalist = array();
-		$datalist['total_qty'] = $count;
-		if ($gtext['currency_position'] == 'left') {
-			$datalist['sub_total'] = $gtext['currency_icon'] . $SubTotal;
-			$datalist['tax'] = $gtext['currency_icon'] . $tax;
-			$datalist['price_total'] = $gtext['currency_icon'] . $TotalPrice;
-			$datalist['total'] = $gtext['currency_icon'] . $GrandTotal;
-			$datalist['discount'] = $gtext['currency_icon'] . $discount;
-		} else {
-			$datalist['sub_total'] = $SubTotal . $gtext['currency_icon'];
-			$datalist['tax'] = $tax . $gtext['currency_icon'];
-			$datalist['price_total'] = $TotalPrice . $gtext['currency_icon'];
-			$datalist['total'] = $GrandTotal . $gtext['currency_icon'];
-			$datalist['discount'] = $discount . $gtext['currency_icon'];
-		}
+    // Calculate tax & total numerically
+    $TaxCal = ($Total_Price * $taxRate) / 100;
+    $total = $Sub_Total + $TaxCal;
 
-		return response()->json($datalist);
-	}
+    // Format numbers for display
+    $TotalPrice = NumberFormat($Total_Price);
+    $SubTotal = NumberFormat($Sub_Total);
+    $tax = NumberFormat($TaxCal);
+    $GrandTotal = NumberFormat($total);
+
+    // Prepare JSON data
+    $datalist = [
+        'total_qty'   => $count,
+        'sub_total'   => ($gtext['currency_position'] == 'left')
+                         ? $gtext['currency_icon'] . $SubTotal
+                         : $SubTotal . $gtext['currency_icon'],
+        'tax'         => ($gtext['currency_position'] == 'left')
+                         ? $gtext['currency_icon'] . $tax
+                         : $tax . $gtext['currency_icon'],
+        'price_total' => ($gtext['currency_position'] == 'left')
+                         ? $gtext['currency_icon'] . $TotalPrice
+                         : $TotalPrice . $gtext['currency_icon'],
+        'total'       => ($gtext['currency_position'] == 'left')
+                         ? $gtext['currency_icon'] . $GrandTotal
+                         : $GrandTotal . $gtext['currency_icon'],
+        'discount'    => ($gtext['currency_position'] == 'left')
+                         ? $gtext['currency_icon'] . NumberFormat($discount)
+                         : NumberFormat($discount) . $gtext['currency_icon'],
+    ];
+
+    return response()->json($datalist);
+}
+
 
 	//Add to Wishlist
 	public function addToWishlist($id)

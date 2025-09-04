@@ -13,21 +13,33 @@ $(function () {
 });
 
 function onViewCartData() {
-
     $.ajax({
-		type : 'GET',
-		url: base_url + '/frontend/viewcart_data',
-		dataType:"json",
-		success: function (data) {
+        type: 'GET',
+        url: base_url + '/frontend/viewcart_data',
+        dataType: 'json',
+        success: function(data) {
+            if (!data) return;
 
-			$(".viewcart_price_total").text(data.price_total);
-			$(".viewcart_discount").text(data.discount);
-			$(".viewcart_tax").text(data.tax);
-			$(".viewcart_sub_total").text(data.sub_total);
-			$(".viewcart_total").text(data.total);
-		}
-	});
+            $(".viewcart_price_total").text(data.price_total || '0');
+            $(".viewcart_discount").text(data.discount || '0');
+            $(".viewcart_tax").text(data.tax || '0');
+            $(".viewcart_sub_total").text(data.sub_total || '0');
+            $(".viewcart_total").text(data.total || '0');
+
+            if (data.total_qty && data.total_qty > 0) {
+                $(".has_cart_item").show();
+                $(".has_item_empty").hide();
+            } else {
+                $(".has_cart_item").hide();
+                $(".has_item_empty").show();
+            }
+        },
+        error: function() {
+            console.error("Failed to fetch cart data!");
+        }
+    });
 }
+
 
 // function onRemoveToCart(id) {
 // 	var rowid = $("#removetoviewcart_"+id).data('id');
