@@ -447,28 +447,27 @@ function onViewCart() {
 
 function onRemoveToCart(cartKey) {
     var rowid = $("#removetocart_" + cartKey).data('id');
-    console.log(rowid,"rowid")
 
     $.ajax({
         type : 'GET',
         url: base_url + '/frontend/remove_to_cart/' + encodeURIComponent(rowid),
         dataType:"json",
         success: function (response) {
-            var msgType = response.msgType;
-            var msg = response.msg;
-            console.log({response})
+            if (response.msgType === "success") {
+                // Remove item from DOM immediately
+                $("#removetocart_" + cartKey).closest("li, tr").remove();
 
-            if (msgType === "success") {
-                onSuccessMsg(msg);
+                onSuccessMsg(response.msg);
             } else {
-                onErrorMsg(msg);
-                console.log('Error: ' + msg);
+                onErrorMsg(response.msg);
             }
 
-            onViewCart(); // refresh cart
+            // Optionally refresh totals
+            onViewCart();
         }
     });
 }
+
 
 function onWishlist() {
 

@@ -171,13 +171,21 @@ class CartController extends Controller
 
 	//Remove to Cart
 	public function RemoveToCart($rowid)
-	{
-		$cart = session()->get('shopping_cart');
-		if (isset($cart[$rowid])) {
-			unset($cart[$rowid]);
-			session()->put('shopping_cart', $cart);
-		}
-	}
+{
+    $cart = session()->get('shopping_cart', []);
+
+    if (isset($cart[$rowid])) {
+        unset($cart[$rowid]);
+        session()->put('shopping_cart', $cart);
+    }
+
+    return response()->json([
+        'msgType' => 'success',
+        'msg' => __('Data Removed Successfully'),
+        'cart' => $cart
+    ]);
+}
+
 
 	//get Cart
 	public function getCart()
