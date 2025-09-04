@@ -129,7 +129,6 @@ $(document).on("click", ".product_buy_now", function (event) {
 //         }
 //     });
 // });
-
 var currentProductId = null;
 var currentQty = 1;
 
@@ -137,48 +136,126 @@ var currentQty = 1;
 $(document).on("click", ".addtocart", function (event) {
     event.preventDefault();
 
-
     currentProductId = $(this).data('id');
     currentQty = $("#quantity").val() || 1;
 
-    // Get selected size/color from page inputs (if already selected)
     var size = $("#selected_size").val();
     var color = $("#selected_color").val();
 
-    // If size or color is missing, show modal
     if (!size || !color) {
-        console.log({size,color})
+        var sizes = JSON.parse($(this).attr('data-variation-size') || '[]');
+        var colors = JSON.parse($(this).attr('data-variation-color') || '[]');
 
-        // Parse variation arrays from button data attributes
-        var sizes = JSON?.parse($(this).attr('data-variation-size') || '[]');
-        var colors = JSON?.parse($(this).attr('data-variation-color') || '[]');
-        console.log(sizes,colors)
-
-        // Clear previous modal options
         $("#modal-sizes").empty();
         $("#modal-colors").empty();
 
-        // Populate sizes dynamically
         sizes.forEach(function(s){
             $("#modal-sizes").append('<li class="unit" data-size="' + s + '">' + s + '</li>');
         });
 
-        // Populate colors dynamically
         colors.forEach(function(c){
-            $("#modal-colors").append('<li class="color-option" data-color="' + c + '" style="background:' + c + ';"></li>');
+            $("#modal-colors").append('<li class="color-option" data-color="' + c + '" style="background:' + c + '; width: 30px; height:30px; display:inline-block; margin:5px; cursor:pointer;"></li>');
         });
 
-        // Store product id in modal for later AJAX
         $("#variationModal").data('product-id', currentProductId);
-
-        // Show modal (Bootstrap)
         $("#variationModal").modal('show');
         return;
     }
 
-    // If size & color are already selected, add directly
+    // Direct add if variation selected
     addToCartAJAX(currentProductId, currentQty, size, color);
 });
+
+// Modal click select
+$(document).on('click', '#modal-sizes li', function(){
+    $("#selected_size").val($(this).data('size'));
+    $(this).addClass('active').siblings().removeClass('active');
+});
+
+$(document).on('click', '#modal-colors li', function(){
+    $("#selected_color").val($(this).data('color'));
+    $(this).addClass('active').siblings().removeClass('active');
+});
+
+// Modal Add-to-Cart
+$(document).on('click', '#modal-add-to-cart', function(){
+    var size = $("#selected_size").val();
+    var color = $("#selected_color").val();
+
+    if(!size || !color){
+        alert("Please select size and color");
+        return;
+    }
+
+    addToCartAJAX(currentProductId, currentQty, size, color);
+    $("#variationModal").modal('hide');
+});
+
+// AJAX Add-to-Cart
+function addToCartAJAX(productId, qty, size, color){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/frontend/add_to_cart",
+        data: { id: productId, qty: qty, size: size, color: color },
+        dataType: "json",
+        success: function(response){
+            if(response.msgType === "success"){
+                onSuccessMsg(response.msg);
+                onViewCart();       // sidebar update
+                onViewCartData();   // totals update
+            } else {
+                onErrorMsg(response.msg);
+            }
+        }
+    });
+}
+
+// AJAX Remove-from-Cart
+function onRemoveToCart(cartKey){
+    $.ajax({
+        type: 'GET',
+        url: base_url + '/frontend/remove_to_cart/' + encodeURIComponent(cartKey),
+        dataType: 'json',
+        success: function(response){
+            if(response.msgType === "success"){
+                $("#row_delete_" + cartKey).fadeOut(300,function(){ $(this).remove(); });
+                onViewCart();
+                onViewCartData();
+                onSuccessMsg(response.msg);
+            } else {
+                onErrorMsg(response.msg);
+            }
+        }
+    });
+}
+
+// Sidebar / totals update
+function onViewCartData() {
+    $.ajax({
+        type: 'GET',
+        url: base_url + '/frontend/viewcart_data',
+        dataType: 'json',
+        success: function(data){
+            if(!data) return;
+
+            $(".viewcart_price_total").text(data.price_total || '0');
+            $(".viewcart_discount").text(data.discount || '0');
+            $(".viewcart_tax").text(data.tax || '0');
+            $(".viewcart_sub_total").text(data.sub_total || '0');
+            $(".viewcart_total").text(data.total || '0');
+
+            if(data.total_qty && data.total_qty > 0){
+                $(".has_cart_item").show();
+                $(".has_item_empty").hide();
+            } else {
+                $(".has_cart_item").hide();
+                $(".has_item_empty").show();
+            }
+        }
+    });
+}
+
+
 
 // Handle modal selection and confirm Add to Cart
 $(document).on("click", "#modal-sizes .unit", function () {
