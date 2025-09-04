@@ -154,7 +154,7 @@ $(document).on("click", ".addtocart", function (event) {
         });
 
         colors.forEach(function(c){
-            $("#modal-colors").append('<li class="color-option" data-color="' + c + '" style="background:' + c + '; width: 40px; height:50px; display:inline-block; margin:5px; cursor:pointer;"></li>');
+            $("#modal-colors").append('<li class="color-option" data-color="' + c + '" style="background:' + c + '; width: 60px; height:35px; display:inline-block; margin:5px; cursor:pointer;"></li>');
         });
 
         $("#variationModal").data('product-id', currentProductId);
