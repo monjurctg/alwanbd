@@ -563,7 +563,7 @@ class HomeFrontendController extends Controller
 			WHERE a.is_publish = 1
 			AND a.lan = '".$lan."'
 			AND d.order_status_id = 4
-			GROUP BY a.id, a.title, a.slug, a.f_thumbnail, a.sale_price, a.old_price, a.end_date, a.is_discount, b.shop_name, b.id, b.shop_url
+			GROUP BY a.id, a.title, a.slug,a.variation_color, a.variation_size, a.f_thumbnail, a.sale_price, a.old_price, a.end_date, a.is_discount, b.shop_name, b.id, b.shop_url
 			ORDER BY TotalSell DESC
 			LIMIT 15;";
 
@@ -601,7 +601,7 @@ class HomeFrontendController extends Controller
 			WHERE a.is_publish = 1
 			AND a.lan = '".$lan."'
 			AND c.rating = 5
-			GROUP BY a.id, a.title, a.slug, a.f_thumbnail, a.sale_price, a.old_price, a.end_date, a.is_discount, b.shop_name, b.id, b.shop_url
+			GROUP BY a.id, a.title, a.slug, a.f_thumbnail,a.variation_color, a.variation_size, a.sale_price, a.old_price, a.end_date, a.is_discount, b.shop_name, b.id, b.shop_url
 			ORDER BY TotalReview DESC
 			LIMIT 15;";
 			$top_rated = DB::select($tr_sql);
