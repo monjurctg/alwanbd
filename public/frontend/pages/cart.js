@@ -136,7 +136,7 @@ var currentQty = 1;
 // Click on Add to Cart button
 $(document).on("click", ".addtocart", function (event) {
     event.preventDefault();
-    console.log(event)
+
 
     currentProductId = $(this).data('id');
     currentQty = $("#quantity").val() || 1;
@@ -147,7 +147,7 @@ $(document).on("click", ".addtocart", function (event) {
 
     // If size or color is missing, show modal
     if (!size || !color) {
-        console.log(size,color)
+        console.log({size,color})
 
         // Parse variation arrays from button data attributes
         var sizes = JSON.parse($(this).attr('data-variation-size') || '[]');
