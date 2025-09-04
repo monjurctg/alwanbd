@@ -102,10 +102,12 @@ class CartController extends Controller
 		$total = 0;
 		$items = '';
 		if (session()->get('shopping_cart')) {
+
 			foreach ($ShoppingCartData as $row) {
 				$count += $row['qty'];
 				$Total_Price += $row['price'] * $row['qty'];
 				$Sub_Total += $row['price'] * $row['qty'];
+				$cartKey = $row['id'] . '_' . $row['size'] . '_' . $row['color'];
 
 				if ($gtext['currency_position'] == 'left') {
 					$price = '<span id="product-quatity">' . $row['qty'] . '</span> x ' . $gtext['currency_icon'] . $row['price'];
@@ -113,22 +115,28 @@ class CartController extends Controller
 					$price = '<span id="product-quatity">' . $row['qty'] . '</span> x ' . $row['price'] . $gtext['currency_icon'];
 				}
 
-				$items .= '<li>
-    <div class="cart-item-card">
-        <a data-id="' . $row['id'] . '" id="removetocart_' . $row['id'] . '" onclick="onRemoveToCart(' . $row['id'] . ')" href="javascript:void(0);" class="item-remove"><i class="bi bi-x"></i></a>
-        <div class="cart-item-img">
-            <img src="' . $Path . '/' . $row['thumbnail'] . '" alt="' . $row['name'] . '" />
-        </div>
-        <div class="cart-item-desc">
-            <h6><a href="' . route('frontend.product', [$row['id'], str_slug($row['name'])]) . '">' . $row['name'] . '</a></h6>
-            <p>' . $price . '</p>
-            <p>
-                <span>' . __('Size') . ': ' . ($row['size'] ?? '') . '</span> |
-                <span>' . __('Color') . ': ' . ($row['color'] ?? '') . '</span>
-            </p>
-        </div>
-    </div>
-</li>';
+			$items .= '<li>
+						<div class="cart-item-card">
+							<a data-id="' . $cartKey . '"
+							id="removetocart_' . $cartKey . '"
+							onclick="onRemoveToCart(\'' . $cartKey . '\')"
+							href="javascript:void(0);"
+							class="item-remove">
+								<i class="bi bi-x"></i>
+							</a>
+							<div class="cart-item-img">
+								<img src="' . $Path . '/' . $row['thumbnail'] . '" alt="' . $row['name'] . '" />
+							</div>
+							<div class="cart-item-desc">
+								<h6><a href="' . route('frontend.product', [$row['id'], str_slug($row['name'])]) . '">' . $row['name'] . '</a></h6>
+								<p>' . $price . '</p>
+								<p>
+									<span>' . __('Size') . ': ' . ($row['size'] ?? '') . '</span> |
+									<span>' . __('Color') . ': ' . ($row['color'] ?? '') . '</span>
+								</p>
+							</div>
+						</div>
+					</li>';
 
 			}
 		}
@@ -164,18 +172,11 @@ class CartController extends Controller
 	//Remove to Cart
 	public function RemoveToCart($rowid)
 	{
-		$res = array();
-
 		$cart = session()->get('shopping_cart');
 		if (isset($cart[$rowid])) {
 			unset($cart[$rowid]);
 			session()->put('shopping_cart', $cart);
 		}
-
-		$res['msgType'] = 'success';
-		$res['msg'] = __('Data Removed Successfully');
-
-		return response()->json($res);
 	}
 
 	//get Cart
