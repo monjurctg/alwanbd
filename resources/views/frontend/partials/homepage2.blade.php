@@ -541,10 +541,9 @@
 
                     <!-- Buttons -->
                     <div class="item-card-bottom d-flex justify-content-between align-items-center">
-                        <a data-id="{{ $row->id }}" href="javascript:void(0);"
-                           class="btn btn-sm btn-primary add-to-cart addtocart">
-                            {{ __('Add To Cart') }}
-                        </a>
+                      <a class="btn add-to-cart addtocart" data-variation-color='{{  $row->variation_color}}'
+											data-variation-size='{{ $row->variation_size }}' data-id="{{ $row->id }}"
+											href="javascript:void(0);">{{ __('Add To Cart') }}</a>
                         <div class="d-flex">
                             <a class="addtowishlist me-2" data-id="{{ $row->id }}" href="javascript:void(0);">
                                 <i class="bi bi-heart"></i>
@@ -627,7 +626,9 @@
 							@endif
 						</div>
 						<div class="item-card-bottom">
-							<a data-id="{{ $row->id }}" href="javascript:void(0);" class="btn add-to-cart addtocart">{{ __('Add To Cart') }}</a>
+<a class="btn add-to-cart addtocart" data-variation-color='{{  $row->variation_color}}'
+											data-variation-size='{{ $row->variation_size }}' data-id="{{ $row->id }}"
+											href="javascript:void(0);">{{ __('Add To Cart') }}</a>
 							<ul class="item-cart-list">
 								<li><a class="addtowishlist" data-id="{{ $row->id }}" href="javascript:void(0);"><i class="bi bi-heart"></i></a></li>
 								<li><a href="{{ route('frontend.product', [$row->id, $row->slug]) }}"><i class="bi bi-eye"></i></a></li>
@@ -703,7 +704,9 @@
 							@endif
 						</div>
 						<div class="item-card-bottom">
-							<a data-id="{{ $row->id }}" href="javascript:void(0);" class="btn add-to-cart addtocart">{{ __('Add To Cart') }}</a>
+<a class="btn add-to-cart addtocart" data-variation-color='{{  $row->variation_color}}'
+											data-variation-size='{{ $row->variation_size }}' data-id="{{ $row->id }}"
+											href="javascript:void(0);">{{ __('Add To Cart') }}</a>
 							<ul class="item-cart-list">
 								<li><a class="addtowishlist" data-id="{{ $row->id }}" href="javascript:void(0);"><i class="bi bi-heart"></i></a></li>
 								<li><a href="{{ route('frontend.product', [$row->id, $row->slug]) }}"><i class="bi bi-eye"></i></a></li>
@@ -779,7 +782,9 @@
 							@endif
 						</div>
 						<div class="item-card-bottom">
-							<a data-id="{{ $row->id }}" href="javascript:void(0);" class="btn add-to-cart addtocart">{{ __('Add To Cart') }}</a>
+						<a class="btn add-to-cart addtocart" data-variation-color='{{  $row->variation_color}}'
+											data-variation-size='{{ $row->variation_size }}' data-id="{{ $row->id }}"
+											href="javascript:void(0);">{{ __('Add To Cart') }}</a>
 							<ul class="item-cart-list">
 								<li><a class="addtowishlist" data-id="{{ $row->id }}" href="javascript:void(0);"><i class="bi bi-heart"></i></a></li>
 								<li><a href="{{ route('frontend.product', [$row->id, $row->slug]) }}"><i class="bi bi-eye"></i></a></li>
@@ -855,7 +860,9 @@
 							@endif
 						</div>
 						<div class="item-card-bottom">
-							<a data-id="{{ $row->id }}" href="javascript:void(0);" class="btn add-to-cart addtocart">{{ __('Add To Cart') }}</a>
+							<a class="btn add-to-cart addtocart" data-variation-color='{{  $row->variation_color}}'
+											data-variation-size='{{ $row->variation_size }}' data-id="{{ $row->id }}"
+											href="javascript:void(0);">{{ __('Add To Cart') }}</a>
 							<ul class="item-cart-list">
 								<li><a class="addtowishlist" data-id="{{ $row->id }}" href="javascript:void(0);"><i class="bi bi-heart"></i></a></li>
 								<li><a href="{{ route('frontend.product', [$row->id, $row->slug]) }}"><i class="bi bi-eye"></i></a></li>
@@ -985,7 +992,9 @@
 									@endif
 								</div>
 								<div class="item-card-bottom">
-									<a data-id="{{ $row->id }}" href="javascript:void(0);" class="btn add-to-cart addtocart">{{ __('Add To Cart') }}</a>
+									<a class="btn add-to-cart addtocart" data-variation-color='{{  $row->variation_color}}'
+											data-variation-size='{{ $row->variation_size }}' data-id="{{ $row->id }}"
+											href="javascript:void(0);">{{ __('Add To Cart') }}</a>
 									<ul class="item-cart-list">
 										<li><a class="addtowishlist" data-id="{{ $row->id }}" href="javascript:void(0);"><i class="bi bi-heart"></i></a></li>
 										<li><a href="{{ route('frontend.product', [$row->id, $row->slug]) }}"><i class="bi bi-eye"></i></a></li>
