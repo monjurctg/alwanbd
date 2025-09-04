@@ -7,11 +7,11 @@
 		@else
 		<div class="col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
 		@endif
-		
+
 			<div class="item-card">
 				<div class="item-image">
 					@if(($row->is_discount == 1) && ($row->old_price !=''))
-						@php 
+						@php
 							$discount = number_format((($row->old_price - $row->sale_price)*100)/$row->old_price);
 						@endphp
 					<span class="item-label">{{ $discount }}% {{ __('Off') }}</span>
@@ -47,14 +47,17 @@
 						<div class="old-price">{{ NumberFormat($row->old_price) }}{{ $gtext['currency_icon'] }}</div>
 						@endif
 					@endif
+
 				</div>
-				<div class="item-card-bottom">
-					<a data-id="{{ $row->id }}" href="javascript:void(0);" class="btn add-to-cart addtocart">{{ __('Add To Cart') }}</a>
+				<!-- <div class="item-card-bottom">
+
+				<a data-id="{{ $row->id }}" href="javascript:void(0);" class="btn add-to-cart addtocart">{{ __('Add To Cart') }}</a>
+
 					<ul class="item-cart-list">
 						<li><a class="addtowishlist" data-id="{{ $row->id }}" href="javascript:void(0);"><i class="bi bi-heart"></i></a></li>
 						<li><a href="{{ route('frontend.product', [$row->id, $row->slug]) }}"><i class="bi bi-eye"></i></a></li>
 					</ul>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	@endforeach
