@@ -102,7 +102,10 @@
 												}
 
 											@endphp
-											<tr id="row_delete_{{ $row['id'] }}">
+											<?php $cartKey = $row['id'] . '_' . $row['size'] . '_' . $row['color']; ?>
+
+											<tr id="row_delete_{{ $cartKey }}">
+												<!-- Product Image -->
 												<td class="pro-image-w">
 													<div class="pro-image">
 														<a
@@ -112,30 +115,51 @@
 														</a>
 													</div>
 												</td>
+
+												<!-- Product Name -->
 												<td class="pro-name-w" data-title="{{ __('Product') }}:">
-													<span class="pro-name"><a
-															href="{{ route('frontend.product', [$row['id'], str_slug($row['name'])]) }}">{{ $row['name'] }}</a></span>
+													<span class="pro-name">
+														<a
+															href="{{ route('frontend.product', [$row['id'], str_slug($row['name'])]) }}">
+															{{ $row['name'] }}
+														</a>
+													</span>
 												</td>
+
+												<!-- Store -->
 												<td class="pro-store-w" data-title="{{ __('Sold By') }}:">
 													<a
-														href="{{ route('frontend.stores', [$row['seller_id'], str_slug($row['store_name'])]) }}">{{ $row['store_name'] }}</a>
+														href="{{ route('frontend.stores', [$row['seller_id'], str_slug($row['store_name'])]) }}">
+														{{ $row['store_name'] }}
+													</a>
 												</td>
+
+												<!-- Size -->
 												<td class="text-center pro-variation-w" data-title="{{ __('Size') }}:">
-													<span class="pro-variation">{{ $row['size'] }}</span>
+													<span class="pro-variation">{{ $row['size'] ?? '-' }}</span>
 												</td>
+
+												<!-- Color -->
 												<td class="text-center pro-variation-w" data-title="{{ __('Color') }}:">
-													<span class="pro-variation">{{ $row['color'] }}</span>
+													<span class="pro-variation">{{ $row['color'] ?? '-' }}</span>
 												</td>
+
+												<!-- Price -->
 												<td class="text-center pro-price-w" data-title="{{ __('Price') }}:">
-													<span class="pro-price"><span class="pro-price">{{ $price }}</span></span>
+													<span class="pro-price">{{ $price }}</span>
 												</td>
+
+												<!-- Quantity -->
 												<td class="text-center pro-quantity-w" data-title="{{ __('Quantity') }}:">
 													<div class="pro-quantity">{{ $row['qty'] }}</div>
 												</td>
+
+												<!-- Total -->
 												<td class="text-center pro-total-price-w" data-title="{{ __('Total') }}:">
 													<span class="pro-total-price">{{ $totalPrice }}</span>
 												</td>
-												<?php $cartKey = $row['id'] . '_' . $row['size'] . '_' . $row['color']; ?>
+
+												<!-- Remove -->
 												<td class="text-center pro-remove-w" data-title="Remove:">
 													<a data-id="{{ $cartKey }}" id="removetoviewcart_{{ $cartKey }}"
 														onclick="onRemoveToCart('{{ $cartKey }}')" href="javascript:void(0);"
@@ -143,8 +167,8 @@
 														<i class="bi bi-x-lg"></i>
 													</a>
 												</td>
-
 											</tr>
+
 										@endforeach
 									</tbody>
 								</table>

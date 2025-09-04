@@ -54,3 +54,31 @@ function onViewCartData() {
 // 	});
 // }
 
+function onRemoveToCart(cartKey) {
+    var rowid = $("#removetoviewcart_" + cartKey).data('id');
+
+    $.ajax({
+        type : 'GET',
+        url: base_url + '/frontend/remove_to_cart/' + encodeURIComponent(rowid),
+        dataType: "json",
+        success: function (response) {
+            if (response.msgType === "success") {
+                onSuccessMsg(response.msg);
+
+                // Remove row from DOM instantly
+                $("#row_delete_" + cartKey).fadeOut(300, function() {
+                    $(this).remove();
+                });
+
+                // Refresh totals and sidebar cart
+                onViewCartData();
+                onViewCart();
+            } else {
+                onErrorMsg(response.msg);
+            }
+        },
+        error: function () {
+            onErrorMsg("Something went wrong!");
+        }
+    });
+}
