@@ -102,9 +102,9 @@
 						</div>
 					</div>
 
-					<!-- <div id="tp_datalist">
+					<div id="tp_datalist">
 						@include('frontend.partials.product-category-grid')
-					</div> -->
+					</div>
 
 			@if($category_variation == 'left_sidebar')
 				</div>
