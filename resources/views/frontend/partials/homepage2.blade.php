@@ -541,7 +541,7 @@
 
                     <!-- Buttons -->
                     <div class="item-card-bottom d-flex justify-content-between align-items-center">
-                      <a class="btn add-to-cart addtocart" data-variation-color='{{  $row->variation_color}}'
+             <a class="btn add-to-cart addtocart" data-variation-color='{{  $row->variation_color}}'
 											data-variation-size='{{ $row->variation_size }}' data-id="{{ $row->id }}"
 											href="javascript:void(0);">{{ __('Add To Cart') }}</a>
                         <div class="d-flex">
@@ -860,7 +860,7 @@
 							@endif
 						</div>
 						<div class="item-card-bottom">
-							<a class="btn add-to-cart addtocart" data-variation-color='{{  $row->variation_color}}'
+					<a class="btn add-to-cart addtocart" data-variation-color='{{  $row->variation_color}}'
 											data-variation-size='{{ $row->variation_size }}' data-id="{{ $row->id }}"
 											href="javascript:void(0);">{{ __('Add To Cart') }}</a>
 							<ul class="item-cart-list">
@@ -992,7 +992,7 @@
 									@endif
 								</div>
 								<div class="item-card-bottom">
-									<a class="btn add-to-cart addtocart" data-variation-color='{{  $row->variation_color}}'
+								<a class="btn add-to-cart addtocart" data-variation-color='{{  $row->variation_color}}'
 											data-variation-size='{{ $row->variation_size }}' data-id="{{ $row->id }}"
 											href="javascript:void(0);">{{ __('Add To Cart') }}</a>
 									<ul class="item-cart-list">

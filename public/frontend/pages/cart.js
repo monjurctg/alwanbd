@@ -150,8 +150,8 @@ $(document).on("click", ".addtocart", function (event) {
         console.log({size,color})
 
         // Parse variation arrays from button data attributes
-        var sizes = JSON.parse($(this).attr('data-variation-size') || '[]');
-        var colors = JSON.parse($(this).attr('data-variation-color') || '[]');
+        var sizes = JSON?.parse($(this).attr('data-variation-size') || '[]');
+        var colors = JSON?.parse($(this).attr('data-variation-color') || '[]');
         console.log(sizes,colors)
 
         // Clear previous modal options
