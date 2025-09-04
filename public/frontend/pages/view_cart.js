@@ -56,6 +56,7 @@ function onViewCartData() {
 
 function onRemoveToCart(cartKey) {
     var rowid = $("#removetoviewcart_" + cartKey).data('id');
+	console.log(rowid, cartKey);
 
     $.ajax({
         type : 'GET',
