@@ -155,6 +155,7 @@
 												</div>
 											</div>
 											<div class="row">
+
 												<!-- Size / Unit -->
 												<div class="col-lg-6">
 													<div class="form-group">
@@ -316,81 +317,64 @@
 $(function () {
     "use strict";
 
-    // 🔹 Initialize all chosen selects
+    // 🔹 Initialize all chosen selects with default placeholder
     $('.chosen-select').chosen({
         width: "100%",
         placeholder_text_multiple: "Select options"
     });
 
-    // 🔹 Custom placeholders for specific fields
+    // 🔹 Set custom placeholders for Size and Color
     $("#variation_size").chosen({ width: "100%", placeholder_text_multiple: "Select or type sizes" });
     $("#variation_color").chosen({ width: "100%", placeholder_text_multiple: "Select or type colors" });
 
+    // 🔹 Helper function to add new option dynamically
+    function addNewOption(selectId, value) {
+        const cleanedValue = value.replace(',', '').trim();
+        if (cleanedValue === '') return;
+
+        // Avoid duplicates
+        if ($('#' + selectId + ' option[value="' + cleanedValue + '"]').length === 0) {
+            $('#' + selectId).append(
+                $('<option>', {
+                    value: cleanedValue,
+                    text: cleanedValue,
+                    selected: true
+                })
+            );
+            $('#' + selectId).trigger('chosen:updated');
+        }
+    }
+
     // ============================================================
-    // 🧩 Allow typing and adding new COLORS dynamically
+    // 🧩 Handle dynamic typing for Color
     // ============================================================
-    $('#variation_color_chosen .chosen-choices').on('keyup', function (e) {
-        const input = $(this).find('input');
-        const value = input.val().trim();
-
-        // Add when Enter or Comma pressed
-        if ((e.key === ',' || e.key === 'Enter') && value !== '') {
-            const cleanedValue = value.replace(',', '').trim();
-
-            // Avoid duplicates
-            if ($('#variation_color option[value="' + cleanedValue + '"]').length === 0) {
-                $('#variation_color').append(
-                    $('<option>', {
-                        value: cleanedValue,
-                        text: cleanedValue,
-                        selected: true
-                    })
-                );
-
-                // Update Chosen UI
-                $('#variation_color').trigger('chosen:updated');
-            }
-
-            // Clear input
-            input.val('');
+    $('#variation_color_chosen').on('keyup', 'input', function (e) {
+        if (e.key === 'Enter' || e.key === ',') {
+            addNewOption('variation_color', $(this).val());
+            $(this).val('');
             e.preventDefault();
         }
     });
 
     // ============================================================
-    // 🧩 Allow typing and adding new SIZES dynamically
+    // 🧩 Handle dynamic typing for Size
     // ============================================================
-    $('#variation_size_chosen .chosen-choices').on('keyup', function (e) {
-        const input = $(this).find('input');
-        const value = input.val().trim();
-
-        if ((e.key === ',' || e.key === 'Enter') && value !== '') {
-            const cleanedValue = value.replace(',', '').trim();
-
-            if ($('#variation_size option[value="' + cleanedValue + '"]').length === 0) {
-                $('#variation_size').append(
-                    $('<option>', {
-                        value: cleanedValue,
-                        text: cleanedValue,
-                        selected: true
-                    })
-                );
-
-                $('#variation_size').trigger('chosen:updated');
-            }
-
-            input.val('');
+    $('#variation_size_chosen').on('keyup', 'input', function (e) {
+        if (e.key === 'Enter' || e.key === ',') {
+            addNewOption('variation_size', $(this).val());
+            $(this).val('');
             e.preventDefault();
         }
     });
 
     // ============================================================
-    // 🧩 (Optional) Refresh Chosen if content is loaded dynamically
+    // 🧩 Optional: Refresh Chosen after AJAX updates
     // ============================================================
     $(document).on('ajaxComplete', function () {
         $('.chosen-select').trigger('chosen:updated');
     });
 });
 </script>
+
 
 @endpush
