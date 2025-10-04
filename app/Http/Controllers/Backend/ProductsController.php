@@ -323,48 +323,49 @@ class ProductsController extends Controller
 	}
 
     //get Product
-public function getProductPageData($id)
-{
-    $datalist = Product::where('id', $id)->first();
+	public function getProductPageData($id)
+	{
+		$datalist = Product::where('id', $id)->first();
 
-    // Convert stored string values to arrays so Blade can preselect them
-    $datalist->variation_size = !empty($datalist->variation_size)
-        ? explode(',', $datalist->variation_size)
-        : [];
+		// Convert string values (like "L,XL") into arrays for Blade
+		$datalist->variation_size = !empty($datalist->variation_size)
+			? explode(',', $datalist->variation_size)
+			: [];
 
-    $datalist->variation_color = !empty($datalist->variation_color)
-        ? explode(',', $datalist->variation_color)
-        : [];
+		$datalist->variation_color = !empty($datalist->variation_color)
+			? explode(',', $datalist->variation_color)
+			: [];
 
-    $lan = $datalist->lan;
+		$lan = $datalist->lan;
 
-    $statuslist = DB::table('tp_status')->orderBy('id', 'asc')->get();
-    $languageslist = DB::table('languages')->where('status', 1)->orderBy('id', 'asc')->get();
-    $brandlist = Brand::where('lan', $lan)->where('is_publish', 1)->orderBy('name', 'asc')->get();
-    $categorylist = Pro_category::where('lan', $lan)->where('is_publish', 1)->orderBy('name', 'asc')->get();
-    $taxlist = Tax::orderBy('title', 'asc')->get();
-    $unitlist = Attribute::orderBy('name', 'asc')->get();
-    $media_datalist = Media_option::orderBy('id', 'desc')->paginate(28);
+		$statuslist = DB::table('tp_status')->orderBy('id', 'asc')->get();
+		$languageslist = DB::table('languages')->where('status', 1)->orderBy('id', 'asc')->get();
+		$brandlist = Brand::where('lan', $lan)->where('is_publish', 1)->orderBy('name', 'asc')->get();
+		$categorylist = Pro_category::where('lan', $lan)->where('is_publish', 1)->orderBy('name', 'asc')->get();
+		$taxlist = Tax::orderBy('title', 'asc')->get();
+		$unitlist = Attribute::orderBy('name', 'asc')->get();
+		$media_datalist = Media_option::orderBy('id', 'desc')->paginate(28);
 
-    $storeList = DB::table('users')
-        ->select('users.id', 'users.shop_name')
-        ->where('users.role_id', 3)
-        ->where('users.status_id', 1)
-        ->orderBy('users.shop_name', 'asc')
-        ->get();
+		$storeList = DB::table('users')
+			->select('users.id', 'users.shop_name')
+			->where('users.role_id', 3)
+			->where('users.status_id', 1)
+			->orderBy('users.shop_name', 'asc')
+			->get();
 
-    return view('backend.product', compact(
-        'datalist',
-        'statuslist',
-        'languageslist',
-        'brandlist',
-        'categorylist',
-        'taxlist',
-        'media_datalist',
-        'storeList',
-        'unitlist'
-    ));
-}
+		return view('backend.product', compact(
+			'datalist',
+			'statuslist',
+			'languageslist',
+			'brandlist',
+			'categorylist',
+			'taxlist',
+			'media_datalist',
+			'storeList',
+			'unitlist'
+		));
+	}
+
 
 
 	//Update data for Products
