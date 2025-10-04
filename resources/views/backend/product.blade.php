@@ -330,6 +330,7 @@ $(function () {
     // 🔹 Helper function to add new option dynamically
     function addNewOption(selectId, value) {
         const cleanedValue = value.replace(',', '').trim();
+		console.log(value,selectId);
         if (cleanedValue === '') return;
 
         // Avoid duplicates
