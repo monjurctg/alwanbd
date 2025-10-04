@@ -4,12 +4,8 @@
 @php
 	$gtext = gtext();
 	$gtax = getTax();
-	$CartDataList = session()->get('shopping_cart');
-		foreach($CartDataList as $row){
-		print_r($row['size']);
-		print_r($row['color']);
-		}
-	print_r($CartDataList)
+
+	
 @endphp
 
 @section('meta-content')
