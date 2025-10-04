@@ -163,12 +163,12 @@
 																class="red">*</span></label>
 														<select name="variation_size[]" id="variation_size"
 															class="chosen-select form-control" multiple>
-															@foreach($unitlist as $row)
-																<option value="{{ $row->name }}"
-																	@if(is_array($datalist->variation_size) && in_array($row->name, $datalist->variation_size)) selected @endif>
-																	{{ $row->name }}
-																</option>
-															@endforeach
+																@if(!empty($datalist->variation_color))
+																@foreach($datalist->variation_size as $size)
+																	<option value="{{ $size }}" selected>{{ $size }}</option>
+																@endforeach
+																	@endif
+
 														</select>
 													</div>
 												</div>
