@@ -229,6 +229,7 @@ class CheckoutFrontController extends Controller
 			$total_price = $row['price']*$row['qty'];
 
 			$total_tax = (($total_price*$tax_rate)/100);
+			print_r($row);
 
 			$OrderItemData = array(
 				'order_master_id' => $order_master_id,
