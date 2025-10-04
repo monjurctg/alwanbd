@@ -154,41 +154,38 @@
 													</select>
 												</div>
 											</div>
-											<div class="row">
+										<div class="row">
 
-												<!-- Size / Unit -->
-												<div class="col-lg-6">
-													<div class="form-group">
-														<label for="variation_size">{{ __('Unit / Size') }}<span
-																class="red">*</span></label>
-														<select name="variation_size[]" id="variation_size"
-															class="chosen-select form-control" multiple>
-																@if(!empty($datalist->variation_color))
-																@foreach($datalist->variation_size as $size)
-																	<option value="{{ $size }}" selected>{{ $size }}</option>
-																@endforeach
-																	@endif
+    <!-- Size / Unit -->
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label for="variation_size">{{ __('Unit / Size') }}<span class="red">*</span></label>
+            <select name="variation_size[]" id="variation_size" class="chosen-select form-control" multiple>
+                @if(!empty($datalist->variation_size) && is_array($datalist->variation_size))
+                    @foreach($datalist->variation_size as $size)
+                        <option value="{{ trim($size, '\'"') }}" selected>{{ trim($size, '\'"') }}</option>
+                    @endforeach
+                @endif
+            </select>
+        </div>
+    </div>
 
-														</select>
-													</div>
-												</div>
+    <!-- Color -->
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label for="variation_color">{{ __('Color') }}<span class="red">*</span></label>
+            <select name="variation_color[]" id="variation_color" class="chosen-select form-control" multiple>
+                @if(!empty($datalist->variation_color) && is_array($datalist->variation_color))
+                    @foreach($datalist->variation_color as $color)
+                        <option value="{{ trim($color, '\'"') }}" selected>{{ trim($color, '\'"') }}</option>
+                    @endforeach
+                @endif
+            </select>
+        </div>
+    </div>
 
-												<!-- Color -->
-												<div class="col-lg-6">
-													<div class="form-group">
-														<label for="variation_color">{{ __('Color') }}<span
-																class="red">*</span></label>
-														<select name="variation_color[]" id="variation_color"
-															class="chosen-select form-control" multiple>
-															@if(!empty($datalist->variation_color))
-																@foreach($datalist->variation_color as $color)
-																	<option value="{{ $color }}" selected>{{ $color }}</option>
-																@endforeach
-															@endif
-														</select>
-													</div>
-												</div>
-											</div>
+</div>
+
 
 
 
