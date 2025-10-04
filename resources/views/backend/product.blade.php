@@ -164,9 +164,9 @@
 														<select name="variation_size[]" id="variation_size"
 															class="chosen-select form-control" multiple>
 																@if(!empty($datalist->variation_color))
-																<!-- @foreach($datalist->variation_size as $size)
+																@foreach($datalist->variation_size as $size)
 																	<option value="{{ $size }}" selected>{{ $size }}</option>
-																@endforeach -->
+																@endforeach
 																	@endif
 
 														</select>
@@ -181,9 +181,9 @@
 														<select name="variation_color[]" id="variation_color"
 															class="chosen-select form-control" multiple>
 															@if(!empty($datalist->variation_color))
-																<!-- @foreach($datalist->variation_color as $color)
+																@foreach($datalist->variation_color as $color)
 																	<option value="{{ $color }}" selected>{{ $color }}</option>
-																@endforeach -->
+																@endforeach
 															@endif
 														</select>
 													</div>
@@ -333,7 +333,16 @@ $(function () {
         if (cleanedValue === '') return;
 
         // Avoid duplicates
-     
+        if ($('#' + selectId + ' option[value="' + cleanedValue + '"]').length === 0) {
+            $('#' + selectId).append(
+                $('<option>', {
+                    value: cleanedValue,
+                    text: cleanedValue,
+                    selected: true
+                })
+            );
+            $('#' + selectId).trigger('chosen:updated');
+        }
     }
 
     // ============================================================
