@@ -345,7 +345,7 @@ class ProductsController extends Controller
 		$taxlist = Tax::orderBy('title', 'asc')->get();
 		$unitlist = Attribute::orderBy('name', 'asc')->get();
 		$media_datalist = Media_option::orderBy('id', 'desc')->paginate(28);
-		print_r($datalist->variation_color);
+		print_r($datalist->variation_size);
 		exit;
 
 		$storeList = DB::table('users')
