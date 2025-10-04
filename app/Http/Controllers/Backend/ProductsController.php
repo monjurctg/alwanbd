@@ -414,7 +414,8 @@ public function getProductPageData($id)
 			'status' => 'required',
 			'store' => 'required',
 			'variation_size' => 'required',
-			'sale_price' => 'required'
+			'sale_price' => 'required',
+			'variation_color'=>'required'
 		]);
 
 		$errors = $validator->errors();
@@ -489,6 +490,7 @@ public function getProductPageData($id)
 			'user_id' => $user_id,
 			'variation_size' => $variation_size,
 			'sale_price' => $sale_price,
+			'variation_color'=>$variation_color,
 			'lan' => $lan
 		);
 
