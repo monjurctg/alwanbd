@@ -154,21 +154,42 @@
 													</select>
 												</div>
 											</div>
-											<div class="col-lg-6">
-												<div class="form-group">
-													<label for="variation_size">{{ __('Unit / Size') }}<span
-															class="red">*</span></label>
-													<select name="variation_size[]" id="variation_size"
-														class="chosen-select form-control" multiple>
-														@foreach($unitlist as $row)
-															<option value="{{ $row->name }}"
-																@if(is_array($datalist['variation_size']) && in_array($row->name, $datalist['variation_size'])) selected @endif>
-																{{ $row->name }}
-															</option>
-														@endforeach
-													</select>
+											<div class="row">
+												<!-- Size / Unit -->
+												<div class="col-lg-6">
+													<div class="form-group">
+														<label for="variation_size">{{ __('Unit / Size') }}<span
+																class="red">*</span></label>
+														<select name="variation_size[]" id="variation_size"
+															class="chosen-select form-control" multiple>
+															@foreach($unitlist as $row)
+																<option value="{{ $row->name }}"
+																	@if(is_array($datalist['variation_size']) && in_array($row->name, $datalist['variation_size'])) selected
+																	@endif>
+																	{{ $row->name }}
+																</option>
+															@endforeach
+														</select>
+													</div>
 												</div>
+
+												<div class="col-lg-6">
+													<div class="form-group">
+														<label for="variation_color">{{ __('Color') }}<span
+																class="red">*</span></label>
+														<select name="variation_color[]" id="variation_color"
+															class="chosen-select form-control" multiple>
+															@if(!empty($datalist['variation_color']))
+																@foreach($datalist['variation_color'] as $color)
+																	<option value="{{ $color }}" selected>{{ $color }}</option>
+																@endforeach
+															@endif
+														</select>
+													</div>
+												</div>
+
 											</div>
+
 
 										</div>
 
@@ -292,7 +313,44 @@
 	<script src="{{asset('public/backend/pages/product.js')}}"></script>
 	<script src="{{asset('public/backend/pages/global-media.js')}}"></script>
 	<script>
-		$('.chosen-select').chosen({width: "100%", placeholder_text_multiple: "Select Sizes"});
+		$('.chosen-select').chosen({ width: "100%", placeholder_text_multiple: "Select Sizes" });
+
+		// Initialize chosen
+$("#variation_color").chosen({
+    width: "100%",
+    placeholder_text_multiple: "Type or select colors"
+});
+
+// Allow typing custom color names separated by comma or Enter
+$('#variation_color_chosen .chosen-choices').on('keyup', function (e) {
+    const input = $(this).find('input');
+    const value = input.val().trim();
+
+    // When pressing comma or Enter, create a new option dynamically
+    if ((e.key === ',' || e.key === 'Enter') && value !== '') {
+        const cleanedValue = value.replace(',', '').trim();
+
+        // Check if the color already exists
+        if ($('#variation_color option[value="' + cleanedValue + '"]').length === 0) {
+            // Add new color to select
+            $('#variation_color').append(
+                $('<option>', {
+                    value: cleanedValue,
+                    text: cleanedValue,
+                    selected: true
+                })
+            );
+
+            // Refresh chosen
+            $('#variation_color').trigger('chosen:updated');
+        }
+
+        // Clear the input box inside chosen
+        input.val('');
+        e.preventDefault();
+    }
+});
+
 
 	</script>
 @endpush
