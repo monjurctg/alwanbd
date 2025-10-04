@@ -333,16 +333,7 @@ $(function () {
         if (cleanedValue === '') return;
 
         // Avoid duplicates
-        if ($('#' + selectId + ' option[value="' + cleanedValue + '"]').length === 0) {
-            $('#' + selectId).append(
-                $('<option>', {
-                    value: cleanedValue,
-                    text: cleanedValue,
-                    selected: true
-                })
-            );
-            $('#' + selectId).trigger('chosen:updated');
-        }
+     
     }
 
     // ============================================================
